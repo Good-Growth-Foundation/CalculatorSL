@@ -315,12 +315,11 @@
     <div class="panel">
       <p class="panel-label">Step 1 · Who pays what at your threshold</p>
       <h2>Repayments across the income ladder</h2>
-      <p class="lede">Every bar is a salary band of real graduates, from the bottom of the earnings distribution to the top. The bar shows what a person in that band repays each year under your Budget; the dark dash shows what they repay under today's rules. Your own band is highlighted.</p>
-      <div class="chart-wrap" id="chartWrap" role="img" aria-label="Bar chart of annual repayment per person by income band, compared with today's rules"></div>
+      <p class="lede">Every bar is a salary band of real graduates, from the bottom of the earnings distribution to the top. The bar shows what a person in that band repays each year under your Budget. Your own band is highlighted.</p>
+      <div class="chart-wrap" id="chartWrap" role="img" aria-label="Bar chart of annual repayment per person by income band"></div>
       <div class="legend">
         <span><i style="background:var(--bright-blue)"></i>Annual repayment under your Budget</span>
         <span><i style="background:var(--yellow)"></i>Your salary band</span>
-        <span><i style="background:var(--navy); height:4px; border-radius:2px;"></i>Today's rules</span>
       </div>
       <p class="chart-caption" id="chartCaption"></p>
     </div>
@@ -347,28 +346,7 @@
       <ul class="equiv-list you" id="yourEquivs"></ul>
     </div>
 
-    <div class="panel">
-      <div class="report-card" id="reportForm">
-        <h3>Want the full picture?</h3>
-        <p>We're publishing a report on how to fix student loans without crashing the economy. Pop in your email and we'll send it to you when it lands.</p>
-        <div class="form-grid" style="grid-template-columns:1fr;max-width:420px;">
-          <div class="form-field">
-            <label for="femail">Email</label>
-            <input type="email" id="femail" autocomplete="email" placeholder="you@example.com" required>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn" id="sendReport">Send me the report</button>
-          <span class="form-msg" id="formMsg" role="status"></span>
-        </div>
-        <p class="small-print">We'll use your email to send the report and occasional updates on this campaign, in line with our privacy policy. Unsubscribe any time.</p>
-      </div>
-
-      <div class="report-card report-success" id="reportSuccess">
-        <h3>You're on the list, <em id="sentTo"></em></h3>
-        <p>Our student loans report will land in your inbox as soon as it's published. In the meantime — you've set a Budget. Time to face the verdict.</p>
-      </div>
-    </div>
+    <div class="panel email-slot"></div>
   </div>
 
   <div class="navrow">
@@ -392,6 +370,7 @@
       <p class="lede" id="sacrificeIntro"></p>
       <ul class="equiv-list" id="treasuryEquivs"></ul>
     </div>
+    <div class="panel email-slot"></div>
   </div>
 
   <div class="navrow">
@@ -415,6 +394,7 @@
         <p>Big caveats: earnings are held flat for life (no career progression), loan balances, interest and write-offs aren't simulated, behaviour doesn't change, and all figures are undiscounted cash for a single cohort — so cash neutrality is not fiscal neutrality. Real-world cost equivalents are rough public-domain ballparks for scale, not procurement quotes. Plan 2 rules as at April 2026: threshold £29,385, rate 9%, 30-year write-off.</p>
       </details>
     </div>
+    <div class="panel email-slot"></div>
   </div>
 
   <div class="navrow">
@@ -527,32 +507,24 @@
   }
   function renderChart(thr, sal){
     var reform = BANDS.map(function(b){ return Math.max(0,b[0]-thr)*RATE; });
-    var today  = BANDS.map(function(b){ return Math.max(0,b[0]-BASE_THRESHOLD)*RATE; });
     var ub = userBandIndex(sal);
-    var W=760, H=320, mL=64, mR=12, mT=30, mB=44;
+    var W=760, H=320, mL=46, mR=12, mT=30, mB=44;
     var iw=W-mL-mR, ih=H-mT-mB;
-    var maxV=Math.max.apply(null, reform.concat(today,[100]));
+    var maxV=Math.max.apply(null, reform.concat([100]));
     function y(v){ return mT + (maxV-v)/maxV*ih; }
     var zeroY=y(0);
     var n=BANDS.length, slot=iw/n, bw=Math.min(40, slot*0.62);
     var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">';
     svg+='<line x1="'+mL+'" y1="'+zeroY+'" x2="'+(W-mR)+'" y2="'+zeroY+'" stroke="#112743" stroke-width="1.5"/>';
-    svg+='<text x="'+(mL-8)+'" y="'+(y(maxV)+4)+'" text-anchor="end" font-size="11" font-weight="700" fill="#4a5c75">'+gbp0.format(Math.round(maxV))+'</text>';
     svg+='<text x="'+(mL-8)+'" y="'+(zeroY+4)+'" text-anchor="end" font-size="11" font-weight="700" fill="#4a5c75">\u00a30</text>';
     for (var i=0;i<n;i++){
-      var v=reform[i], t=today[i];
+      var v=reform[i];
       var x=mL+slot*i+(slot-bw)/2;
       var barTop=y(v);
       var barH=Math.max(zeroY-barTop, 2);
       var fill = i===ub ? '#C4D54B' : '#2361B4';
       svg+='<rect x="'+x+'" y="'+barTop+'" width="'+bw+'" height="'+barH+'" rx="4" fill="'+fill+'"/>';
-      // today's-rules dash marker
-      var ty=y(t);
-      svg+='<line x1="'+(x-4)+'" y1="'+ty+'" x2="'+(x+bw+4)+'" y2="'+ty+'" stroke="#112743" stroke-width="3" stroke-linecap="round"/>';
-      // value label rides on top of the bar; nudge above the dash only if they'd collide
-      var lblY = barTop - 6;
-      if (ty < barTop && lblY - ty < 12) lblY = ty - 7;
-      svg+='<text x="'+(x+bw/2)+'" y="'+lblY+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#112743">\u00a3'+num0.format(Math.round(v))+'</text>';
+      svg+='<text x="'+(x+bw/2)+'" y="'+(barTop-6)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#112743">\u00a3'+num0.format(Math.round(v))+'</text>';
       svg+='<text x="'+(x+bw/2)+'" y="'+(H-26)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4a5c75">'+bandLabel(BANDS[i][0])+'</text>';
       if (i===ub) svg+='<text x="'+(x+bw/2)+'" y="'+(H-12)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#112743">YOU</text>';
     }
@@ -562,11 +534,11 @@
 
     var cap=document.getElementById('chartCaption');
     if (thr>BASE_THRESHOLD){
-      cap.textContent='Bars below the dashes mean lower repayments than today. Raising the threshold trims every repayer\u2019s bill by the same flat amount \u2014 9% of the gap between the old line and yours \u2014 and anyone earning between the two thresholds stops repaying entirely. How much that\u2019s worth to you lands in your emailed report below.';
+      cap.textContent='Higher threshold, lighter bills: every repayer\u2019s bar is lower than under today\u2019s \u00a329,385 rules, and anyone earning below your line drops to zero entirely. What that\u2019s worth to you is in Step 2.';
     } else if (thr<BASE_THRESHOLD){
-      cap.textContent='Bars above the dashes mean higher repayments than today. You\u2019ve pulled the threshold below \u00a329,385, so every band pays more \u2014 including people who currently repay nothing at all.';
+      cap.textContent='You\u2019ve pulled the threshold below today\u2019s \u00a329,385, so every band repays more than under current rules \u2014 including people who currently repay nothing at all.';
     } else {
-      cap.textContent='Bars sit exactly on the dashes \u2014 your threshold matches today\u2019s rules, so everyone repays what they already repay. A quiet Budget. Suspiciously quiet.';
+      cap.textContent='Your threshold matches today\u2019s rules, so everyone repays exactly what they already repay. A quiet Budget. Suspiciously quiet.';
     }
   }
 
@@ -708,13 +680,44 @@
     if (e.key==='ArrowLeft' && cur>0 && !e.target.matches('input')) goTo(cur-1);
   });
 
-  // ===== Report signup =====
-  $('sendReport').addEventListener('click', function(){
-    var email=$('femail').value.trim();
-    var msg=$('formMsg');
+  // ===== Report signup (rendered into every .email-slot) =====
+  var emailSubscribed = '';
+  function renderEmailSlots(){
+    document.querySelectorAll('.email-slot').forEach(function(slot){
+      if (emailSubscribed){
+        slot.innerHTML =
+          '<div class="report-card">'+
+            '<h3>You\u2019re on the list, <em style="font-style:normal;color:var(--yellow)">'+emailSubscribed+'</em></h3>'+
+            '<p>Our student loans report will land in your inbox as soon as it\u2019s published.</p>'+
+          '</div>';
+      } else {
+        slot.innerHTML =
+          '<div class="report-card">'+
+            '<h3>Want the full picture?</h3>'+
+            '<p>We\u2019re publishing a report on how to fix student loans without crashing the economy. Pop in your email and we\u2019ll send it to you when it lands.</p>'+
+            '<div class="form-grid" style="grid-template-columns:1fr;max-width:420px;">'+
+              '<div class="form-field"><label>Email</label>'+
+              '<input type="email" class="femail" autocomplete="email" placeholder="you@example.com" required></div>'+
+            '</div>'+
+            '<div class="form-actions">'+
+              '<button class="btn send-report">Send me the report</button>'+
+              '<span class="form-msg" role="status"></span>'+
+            '</div>'+
+            '<p class="small-print">We\u2019ll use your email to send the report and occasional updates on this campaign, in line with our privacy policy. Unsubscribe any time.</p>'+
+          '</div>';
+      }
+    });
+  }
+  document.body.addEventListener('click', function(e){
+    var btn=e.target.closest('.send-report');
+    if (!btn) return;
+    var card=btn.closest('.report-card');
+    var input=card.querySelector('.femail');
+    var msg=card.querySelector('.form-msg');
+    var email=input.value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
       msg.textContent='Please enter a valid email address.'; msg.className='form-msg err';
-      $('femail').focus(); return;
+      input.focus(); return;
     }
     var payload={
       email:email,
@@ -723,13 +726,8 @@
     };
     msg.textContent='Sending\u2026'; msg.className='form-msg';
     var done=function(ok){
-      if (ok){
-        $('sentTo').textContent=email;
-        $('reportForm').style.display='none';
-        $('reportSuccess').classList.add('show');
-      } else {
-        msg.textContent='That didn\u2019t send \u2014 please try again in a moment.'; msg.className='form-msg err';
-      }
+      if (ok){ emailSubscribed=email; renderEmailSlots(); }
+      else { msg.textContent='That didn\u2019t send \u2014 please try again in a moment.'; msg.className='form-msg err'; }
     };
     if (!FORM_ENDPOINT){
       console.warn('FORM_ENDPOINT not set \u2014 simulating success. Payload:', payload);
@@ -742,6 +740,7 @@
       body:JSON.stringify(payload)
     }).then(function(r){done(r.ok);}).catch(function(){done(false);});
   });
+  renderEmailSlots();
 
   // init
   update();
