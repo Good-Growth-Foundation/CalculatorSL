@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Threshold Game — Good Growth Foundation</title>
-<meta name="description" content="You're the Chancellor for one Budget. Set the student loan repayment threshold, see who wins across the income distribution, and find out if you crashed the economy. By the Good Growth Foundation.">
+<meta name="description" content="You're the Chancellor for one Budget. Set the student loan repayment threshold and rate, see who pays what, find out if you crashed the economy — then see what the real fix would save you. By the Good Growth Foundation.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#112743;
-    --navy-deep:#0b1b30;
     --bright-blue:#2361B4;
     --yellow:#C4D54B;
     --orange:#EC704A;
@@ -27,70 +26,41 @@
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    background:var(--navy);
-    color:var(--ink);
-    font-family:var(--font);
-    min-height:100vh;
-    padding:0 16px 60px;
-    overflow-x:hidden;
+    background:var(--navy); color:var(--ink); font-family:var(--font);
+    min-height:100vh; padding:0 16px 60px; overflow-x:hidden;
   }
   /* ---------- brand background shapes ---------- */
   .shape{position:fixed; z-index:0; pointer-events:none;}
-  .shape-1{ /* big chevron, bottom left */
-    left:-140px; bottom:-40px; width:480px; height:420px; background:var(--pale-blue);
-    clip-path:polygon(0 38%, 55% 38%, 100% 0, 100% 24%, 62% 58%, 62% 100%, 0 100%);
-    opacity:.95;
-  }
-  .shape-2{ /* angled slice, top right */
-    right:-160px; top:80px; width:460px; height:340px; background:var(--pale-blue);
-    clip-path:polygon(100% 0, 100% 100%, 0 100%, 55% 55%);
-    opacity:.9;
-  }
-  .shape-3{ /* small yellow accent */
-    left:8%; top:14%; width:120px; height:120px; background:var(--yellow);
-    clip-path:polygon(0 100%, 100% 0, 100% 100%);
-    opacity:.9;
-  }
+  .shape-1{left:-140px; bottom:-40px; width:480px; height:420px; background:var(--pale-blue);
+    clip-path:polygon(0 38%, 55% 38%, 100% 0, 100% 24%, 62% 58%, 62% 100%, 0 100%); opacity:.95;}
+  .shape-2{right:-160px; top:80px; width:460px; height:340px; background:var(--pale-blue);
+    clip-path:polygon(100% 0, 100% 100%, 0 100%, 55% 55%); opacity:.9;}
+  .shape-3{left:8%; top:14%; width:120px; height:120px; background:var(--yellow);
+    clip-path:polygon(0 100%, 100% 0, 100% 100%); opacity:.9;}
   @media(max-width:760px){
     .shape-1{width:300px;height:280px;}
     .shape-2{width:280px;height:220px; top:auto; bottom:30%;}
     .shape-3{display:none;}
   }
-  /* ---------- persistent wordmark ---------- */
-  .wordmark{
-    position:relative; z-index:2;
-    max-width:920px; margin:0 auto; padding:28px 8px 0;
-    color:#fff; font-weight:800; font-size:20px; line-height:1.15; letter-spacing:-.01em;
-  }
+  /* ---------- wordmark ---------- */
+  .wordmark{position:relative; z-index:2; max-width:920px; margin:0 auto; padding:28px 8px 0;
+    color:#fff; font-weight:800; font-size:20px; line-height:1.15; letter-spacing:-.01em;}
   .wordmark span{display:block;}
-  .wordmark small{
-    display:block; margin-top:6px; font-size:11px; font-weight:700; letter-spacing:.24em;
-    text-transform:uppercase; color:var(--pale-blue);
-  }
-  /* ---------- slide engine ---------- */
+  .wordmark small{display:block; margin-top:6px; font-size:11px; font-weight:700; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--pale-blue);}
+  /* ---------- slides ---------- */
   .slide{display:none; position:relative; z-index:1;}
   .slide.active{display:block; animation:fadeUp .45s ease both;}
   @keyframes fadeUp{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
   @media(prefers-reduced-motion:reduce){.slide.active{animation:none;}}
   /* ---------- hero ---------- */
-  .hero{
-    max-width:920px; margin:0 auto; padding:9vh 8px 60px; color:#fff;
-  }
-  .hero h1{
-    font-weight:800; font-size:clamp(44px,8.5vw,86px); line-height:1.0; letter-spacing:-.03em;
-    max-width:11ch;
-  }
+  .hero{max-width:920px; margin:0 auto; padding:9vh 8px 60px; color:#fff;}
+  .hero h1{font-weight:800; font-size:clamp(44px,8.5vw,86px); line-height:1.0; letter-spacing:-.03em; max-width:11ch;}
   .hero h1 em{font-style:normal; color:var(--yellow);}
-  .hero .standfirst{
-    max-width:520px; margin-top:26px; font-size:18px; font-weight:500; line-height:1.6; color:var(--pale-blue);
-  }
-  .btn{
-    display:inline-block; border:none; cursor:pointer; font-family:var(--font);
-    font-weight:800; font-size:16px; letter-spacing:.01em;
-    padding:16px 32px; border-radius:999px;
-    background:var(--yellow); color:var(--navy);
-    transition:transform .15s ease, background .15s ease;
-  }
+  .hero .standfirst{max-width:540px; margin-top:26px; font-size:18px; font-weight:500; line-height:1.6; color:var(--pale-blue);}
+  .btn{display:inline-block; border:none; cursor:pointer; font-family:var(--font);
+    font-weight:800; font-size:16px; letter-spacing:.01em; padding:16px 32px; border-radius:999px;
+    background:var(--yellow); color:var(--navy); transition:transform .15s ease, background .15s ease;}
   .btn:hover{transform:translateY(-2px); background:#d4e45c;}
   .btn:focus-visible{outline:3px solid #fff; outline-offset:3px;}
   .btn.secondary{background:transparent; color:#fff; border:2px solid var(--pale-blue);}
@@ -99,54 +69,33 @@
   .btn.blue:hover{background:#2d74d4;}
   .hero .btn{margin-top:38px;}
   /* ---------- card ---------- */
-  .card{
-    max-width:920px; margin:24px auto 0; background:var(--card);
-    border-radius:16px;
-    box-shadow:0 30px 60px rgba(0,0,0,.4);
-  }
-  .ledger-rule{
-    height:8px; border-radius:8px 8px 0 0;
-    background:linear-gradient(90deg, var(--bright-blue) 0 25%, var(--green) 25% 50%, var(--yellow) 50% 75%, var(--orange) 75% 100%);
-  }
+  .card{max-width:920px; margin:24px auto 0; background:var(--card); border-radius:16px;
+    box-shadow:0 30px 60px rgba(0,0,0,.4);}
+  .ledger-rule{height:8px; border-radius:8px 8px 0 0;
+    background:linear-gradient(90deg, var(--bright-blue) 0 25%, var(--green) 25% 50%, var(--yellow) 50% 75%, var(--orange) 75% 100%);}
   .panel{padding:30px clamp(20px,5vw,44px);}
   .panel + .panel{border-top:1px solid var(--line);}
-  .panel-label{
-    font-size:11px; letter-spacing:.24em; text-transform:uppercase; font-weight:800;
-    color:var(--bright-blue); margin-bottom:18px; display:flex; align-items:center; gap:12px;
-  }
+  .panel-label{font-size:11px; letter-spacing:.24em; text-transform:uppercase; font-weight:800;
+    color:var(--bright-blue); margin-bottom:18px; display:flex; align-items:center; gap:12px;}
   .panel-label::after{content:''; flex:1; height:2px; background:var(--off-white);}
   .panel h2{font-weight:800; font-size:clamp(24px,4vw,32px); letter-spacing:-.02em; margin-bottom:8px;}
-  .panel .lede{font-size:15px; font-weight:500; color:var(--ink-soft); line-height:1.6; max-width:60ch;}
+  .panel .lede{font-size:15px; font-weight:500; color:var(--ink-soft); line-height:1.6; max-width:62ch;}
   /* ---------- sticky controls ---------- */
-  .controls-bar{
-    position:sticky; top:0; z-index:30;
-    background:var(--card);
-    border-radius:16px 16px 0 0;
-    box-shadow:0 10px 24px rgba(17,39,67,.14);
-    padding:18px clamp(20px,5vw,44px) 16px;
-    border-bottom:1px solid var(--line);
-  }
-  .controls{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px 28px;}
-  @media(max-width:760px){.controls{grid-template-columns:1fr;}}
-  .control .ctl-head{
-    display:flex; justify-content:space-between; align-items:baseline; gap:8px;
-  }
+  .controls-bar{position:sticky; top:0; z-index:30; background:var(--card);
+    border-radius:16px 16px 0 0; box-shadow:0 10px 24px rgba(17,39,67,.14);
+    padding:18px clamp(20px,5vw,44px) 16px; border-bottom:1px solid var(--line);}
+  .controls{display:grid; grid-template-columns:1fr 1fr; gap:14px 36px;}
+  @media(max-width:680px){.controls{grid-template-columns:1fr;}}
+  .control .ctl-head{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
   .control .ctl-head label{font-weight:800; font-size:13px; letter-spacing:-.01em;}
-  .ctl-value{
-    display:flex; align-items:baseline; gap:2px; font-weight:800;
-  }
+  .ctl-value{display:flex; align-items:baseline; gap:2px; font-weight:800;}
   .ctl-value .cur{font-size:13px; color:var(--ink-soft);}
-  .ctl-value input{
-    font-family:var(--font); font-weight:800; font-size:17px; width:84px;
+  .ctl-value input{font-family:var(--font); font-weight:800; font-size:17px; width:84px;
     background:transparent; border:none; border-bottom:2px solid var(--navy);
-    color:var(--navy); text-align:right; padding:0 0 1px;
-    font-variant-numeric:tabular-nums;
-  }
+    color:var(--navy); text-align:right; padding:0 0 1px; font-variant-numeric:tabular-nums;}
   .ctl-value input:focus{outline:none; border-bottom-color:var(--bright-blue);}
-  .ctl-value .yrs{font-size:12px; font-weight:600; color:var(--ink-soft);}
-  input[type=range]{
-    width:100%; margin-top:8px; accent-color:var(--bright-blue); height:20px; cursor:pointer;
-  }
+  .ctl-value .unit{font-size:12px; font-weight:600; color:var(--ink-soft);}
+  input[type=range]{width:100%; margin-top:8px; accent-color:var(--bright-blue); height:20px; cursor:pointer;}
   input[type=range]:focus-visible{outline:3px solid var(--yellow); outline-offset:2px; border-radius:4px;}
   .ctl-note{font-size:11px; font-weight:600; color:var(--ink-soft); margin-top:3px;}
   /* ---------- chart ---------- */
@@ -156,103 +105,63 @@
   .legend{display:flex; flex-wrap:wrap; gap:18px; margin-top:8px; font-size:12px; font-weight:700;}
   .legend span{display:inline-flex; align-items:center; gap:7px;}
   .legend i{width:14px; height:14px; border-radius:3px; display:inline-block;}
+  /* ---------- big figures ---------- */
+  .big-number{font-weight:800; font-size:clamp(34px,6vw,52px);
+    font-variant-numeric:tabular-nums; line-height:1.1; letter-spacing:-.02em; color:var(--navy);}
+  .big-number.gain{color:var(--green);}
+  .big-number.cost{color:var(--orange);}
+  .sub-number{font-size:14px; font-weight:600; color:var(--ink-soft); margin-top:8px; max-width:48ch;}
   /* ---------- email form ---------- */
-  .report-card{
-    background:var(--navy); color:#fff; border-radius:12px;
-    padding:26px clamp(18px,4vw,32px); margin-top:6px;
-  }
+  .report-card{background:var(--navy); color:#fff; border-radius:12px;
+    padding:26px clamp(18px,4vw,32px); margin-top:6px;}
   .report-card h3{font-weight:800; font-size:21px; letter-spacing:-.02em;}
   .report-card p{font-size:14px; font-weight:500; color:var(--pale-blue); line-height:1.6; margin-top:8px; max-width:56ch;}
-  .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 18px; margin-top:18px;}
-  @media(max-width:680px){.form-grid{grid-template-columns:1fr;}}
-  .form-field label{
-    display:block; font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
-    color:var(--pale-blue); margin-bottom:6px;
-  }
-  .form-field label .opt{font-weight:600; text-transform:none; letter-spacing:0; opacity:.8;}
-  .form-field input{
-    width:100%; font-family:var(--font); font-weight:600; font-size:15px;
+  .form-grid{display:grid; grid-template-columns:1fr; max-width:420px; gap:14px 18px; margin-top:18px;}
+  .form-field label{display:block; font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--pale-blue); margin-bottom:6px;}
+  .form-field input{width:100%; font-family:var(--font); font-weight:600; font-size:15px;
     padding:12px 14px; border-radius:8px; border:2px solid rgba(153,172,255,.4);
-    background:rgba(255,255,255,.06); color:#fff;
-  }
+    background:rgba(255,255,255,.06); color:#fff;}
   .form-field input::placeholder{color:rgba(153,172,255,.55);}
   .form-field input:focus{outline:none; border-color:var(--yellow);}
   .form-actions{margin-top:18px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
   .form-msg{font-size:13px; font-weight:700;}
-  .form-msg.ok{color:var(--yellow);}
   .form-msg.err{color:var(--orange);}
   .small-print{font-size:11.5px; font-weight:500; color:rgba(153,172,255,.85); margin-top:14px; line-height:1.6;}
-  .report-success{display:none;}
-  .report-success.show{display:block;}
-  .report-success h3 em{font-style:normal; color:var(--yellow);}
   /* ---------- verdict ---------- */
-  .verdict-panel{text-align:center; padding-top:42px; padding-bottom:36px; background:var(--off-white); border-radius:0 0 0 0;}
-  .stamp{
-    display:inline-block; padding:16px 34px; border-radius:999px;
+  .verdict-panel{text-align:center; padding-top:42px; padding-bottom:36px; background:var(--off-white);}
+  .stamp{display:inline-block; padding:16px 34px; border-radius:999px;
     font-weight:800; font-size:clamp(22px,4.5vw,36px); letter-spacing:-.01em;
-    color:#fff; text-transform:uppercase; background:var(--orange);
-  }
+    color:#fff; text-transform:uppercase; background:var(--orange);}
   .stamp.green{background:var(--green);}
   .stamp.amber{background:var(--yellow); color:var(--navy);}
   @keyframes slam{0%{transform:scale(1.6); opacity:0;} 60%{transform:scale(.95); opacity:1;} 100%{transform:scale(1);}}
   .stamp.slam{animation:slam .4s cubic-bezier(.2,.8,.3,1.15) both;}
   @media(prefers-reduced-motion:reduce){.stamp.slam{animation:none;}}
-  .verdict-sub{margin:20px auto 0; max-width:540px; font-size:16px; font-weight:500; line-height:1.6;}
-  .neutral-hint{margin-top:16px; font-size:13px; font-weight:700; color:var(--bright-blue); line-height:1.6;}
-  .neutral-hint b{color:var(--navy);}
+  .verdict-sub{margin:20px auto 0; max-width:560px; font-size:16px; font-weight:500; line-height:1.6;}
   /* ---------- equivalents ---------- */
   .equiv-list{list-style:none; margin-top:6px;}
-  .equiv-list li{
-    display:flex; align-items:baseline; gap:14px; padding:13px 0;
-    border-bottom:1px solid var(--line); font-size:15px; line-height:1.5; font-weight:500;
-  }
+  .equiv-list li{display:flex; align-items:baseline; gap:14px; padding:13px 0;
+    border-bottom:1px solid var(--line); font-size:15px; line-height:1.5; font-weight:500;}
   .equiv-list li:last-child{border-bottom:none;}
-  .equiv-count{
-    font-weight:800; font-size:20px; min-width:110px;
-    text-align:right; font-variant-numeric:tabular-nums; flex-shrink:0; color:var(--orange);
-  }
+  .equiv-count{font-weight:800; font-size:20px; min-width:110px;
+    text-align:right; font-variant-numeric:tabular-nums; flex-shrink:0; color:var(--orange);}
   .equiv-list.you .equiv-count{color:var(--green);}
-  .equiv-list.negative .equiv-count{color:var(--orange);}
-  /* ---------- personal figures ---------- */
-  .figures{display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:6px;}
-  @media(max-width:680px){.figures{grid-template-columns:1fr;}}
-  .figure{padding:8px 24px 8px 0;}
-  .figure + .figure{border-left:1px solid var(--line); padding-left:32px; padding-right:0;}
-  @media(max-width:680px){
-    .figure + .figure{border-left:none; border-top:1px solid var(--line); padding-left:0; padding-top:20px; margin-top:20px;}
-  }
-  .figure h3{
-    font-size:11px; letter-spacing:.2em; text-transform:uppercase;
-    color:var(--ink-soft); font-weight:700; margin-bottom:8px;
-  }
-  .big-number{
-    font-weight:800; font-size:clamp(30px,5vw,42px);
-    font-variant-numeric:tabular-nums; line-height:1.1; letter-spacing:-.02em; color:var(--navy);
-  }
-  .big-number.gain{color:var(--green);}
-  .big-number.cost{color:var(--orange);}
-  .sub-number{font-size:14px; font-weight:600; color:var(--ink-soft); margin-top:6px;}
-  /* ---------- catch / methodology ---------- */
-  .catch{
-    background:var(--off-white); border-left:6px solid var(--yellow); border-radius:8px;
-    padding:20px 24px; margin-top:10px; font-size:15px; line-height:1.65; font-weight:500;
-  }
-  .catch strong{font-weight:800;}
+  /* ---------- proposal page ---------- */
+  .proposal-input{max-width:420px; margin-top:14px;}
+  .proposal-input .ctl-head{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+  .proposal-input label{font-weight:800; font-size:14px;}
+  /* ---------- methodology ---------- */
   details.method{margin-top:22px; font-size:13px; color:var(--ink-soft); line-height:1.7;}
-  details.method summary{
-    cursor:pointer; font-weight:800; font-size:12px; letter-spacing:.18em; text-transform:uppercase;
-    color:var(--bright-blue); margin-bottom:8px;
-  }
+  details.method summary{cursor:pointer; font-weight:800; font-size:12px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--bright-blue); margin-bottom:8px;}
   details.method p + p{margin-top:8px;}
   /* ---------- nav ---------- */
-  .navrow{
-    max-width:920px; margin:22px auto 0; position:relative; z-index:1;
-    display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 8px;
-  }
+  .navrow{max-width:920px; margin:22px auto 0; position:relative; z-index:1;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 8px;}
   .dots{display:flex; gap:9px;}
   .dots i{width:9px; height:9px; border-radius:50%; background:rgba(153,172,255,.4); transition:background .2s, transform .2s;}
   .dots i.on{background:var(--yellow); transform:scale(1.25);}
-  .navrow .spacer{width:120px;}
   .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
 </style>
 </head>
@@ -264,95 +173,81 @@
 
 <div class="wordmark">
   <span>Good Growth</span><span>Foundation</span>
-  <small>The Threshold Game</small>
+  <small id="heroTagline"></small>
 </div>
 
 <!-- ============ SLIDE 0 · HERO ============ -->
 <section class="slide active" id="slide-0" aria-label="Welcome">
   <div class="hero">
-    <h1>Could <em>you</em> fix student loans?</h1>
-    <p class="standfirst">You're the Chancellor for one Budget. Raise the repayment threshold and graduates keep more of their pay every month — but every pound they keep is a pound the Treasury doesn't get. Find the balance, or find out what breaking it looks like.</p>
-    <button class="btn" data-go="1">Play the Budget</button>
+    <h1 id="heroTitle"></h1>
+    <p class="standfirst" id="heroStandfirst"></p>
+    <button class="btn" id="startBtn" data-go="1"></button>
   </div>
 </section>
 
-<!-- ============ SLIDE 1 · BUDGET + NUMBERS ============ -->
-<section class="slide" id="slide-1" aria-label="Your Budget and the numbers">
+<!-- ============ SLIDE 1 · THE BUDGET ============ -->
+<section class="slide" id="slide-1" aria-label="Your Budget">
   <div class="card">
     <div class="controls-bar">
       <div class="controls">
 
         <div class="control">
           <div class="ctl-head">
-            <label for="salary">Your salary</label>
-            <span class="ctl-value"><span class="cur">£</span><input type="number" id="salary" min="0" max="250000" step="500" value="36000" inputmode="numeric"></span>
+            <label for="threshold" id="lblThreshold"></label>
+            <span class="ctl-value"><span class="cur">£</span><input type="number" id="threshold" min="15000" max="60000" step="100" value="29385" inputmode="numeric"></span>
           </div>
-          <input type="range" id="salarySlider" min="20000" max="120000" step="500" value="36000" aria-label="Salary slider">
-          <p class="ctl-note">What you earn, or your imaginary graduate self.</p>
+          <input type="range" id="thresholdSlider" min="20000" max="60000" step="100" value="29385" aria-label="Threshold slider">
+          <p class="ctl-note" id="noteThreshold"></p>
         </div>
 
         <div class="control">
           <div class="ctl-head">
-            <label for="threshold">Repayment threshold</label>
-            <span class="ctl-value"><span class="cur">£</span><input type="number" id="threshold" min="15000" max="60000" step="100" value="33696" inputmode="numeric"></span>
+            <label for="rate" id="lblRate"></label>
+            <span class="ctl-value"><input type="number" id="rate" min="0" max="20" step="0.5" value="9" inputmode="decimal" style="width:58px"><span class="unit">%</span></span>
           </div>
-          <input type="range" id="thresholdSlider" min="20000" max="60000" step="100" value="33696" aria-label="Threshold slider">
-          <p class="ctl-note">Repayments are 9% above this line. Currently £29,385.</p>
-        </div>
-
-        <div class="control">
-          <div class="ctl-head">
-            <label for="termSlider">Repayment term</label>
-            <span class="ctl-value"><input type="number" id="term" min="30" max="40" step="1" value="30" inputmode="numeric" style="width:48px"><span class="yrs">yrs</span></span>
-          </div>
-          <input type="range" id="termSlider" min="30" max="40" step="1" value="30" aria-label="Term slider">
-          <p class="ctl-note">The rescue lever. Currently loans write off at 30 years.</p>
+          <input type="range" id="rateSlider" min="3" max="15" step="0.5" value="9" aria-label="Rate slider">
+          <p class="ctl-note" id="noteRate"></p>
         </div>
 
       </div>
     </div>
 
     <div class="panel">
-      <p class="panel-label">Step 1 · Who pays what at your threshold</p>
-      <h2>Repayments across the income ladder</h2>
-      <p class="lede">Every bar is a salary band of real graduates, from the bottom of the earnings distribution to the top. The bar shows what a person in that band repays each year under your Budget. Your own band is highlighted.</p>
-      <div class="chart-wrap" id="chartWrap" role="img" aria-label="Bar chart of annual repayment per person by income band"></div>
+      <p class="panel-label" id="chartAPanelLabel"></p>
+      <h2 id="chartAHeading"></h2>
+      <p class="lede" id="chartALede"></p>
+      <div class="chart-wrap" id="chartAWrap" role="img" aria-label="Bar chart of annual repayment per graduate by earnings percentile band"></div>
       <div class="legend">
-        <span><i style="background:var(--bright-blue)"></i>Annual repayment under your Budget</span>
-        <span><i style="background:var(--yellow)"></i>Your salary band</span>
-      </div>
-      <p class="chart-caption" id="chartCaption"></p>
-    </div>
-
-    <div class="panel">
-      <p class="panel-label">Step 2 · What it means for you</p>
-      <div class="figures">
-        <div class="figure">
-          <h3>Your annual saving</h3>
-          <div class="big-number" id="yourSaving">£0</div>
-          <div class="sub-number" id="yourMonthly"></div>
-        </div>
-        <div class="figure">
-          <h3>Your lifetime position</h3>
-          <div class="big-number" id="yourLifetime">£0</div>
-          <div class="sub-number" id="yourLifetimeNote"></div>
-        </div>
+        <span><i style="background:var(--bright-blue)"></i><span id="legendA"></span></span>
       </div>
     </div>
 
     <div class="panel">
-      <p class="panel-label">Step 3 · What you could buy</p>
-      <p class="lede" id="spoilsIntro"></p>
-      <ul class="equiv-list you" id="yourEquivs"></ul>
+      <p class="panel-label" id="chartBPanelLabel"></p>
+      <h2 id="chartBHeading"></h2>
+      <p class="lede" id="chartBLede"></p>
+      <div class="chart-wrap" id="chartBWrap" role="img" aria-label="Bar chart of annual saving or extra cost per graduate by earnings percentile band, compared with current rules"></div>
+      <div class="legend">
+        <span><i style="background:var(--green)"></i><span id="legendBPos"></span></span>
+        <span><i style="background:var(--orange)"></i><span id="legendBNeg"></span></span>
+      </div>
+      <p class="chart-caption" id="chartBCaption"></p>
+    </div>
+
+    <div class="panel">
+      <p class="panel-label" id="treasuryPanelLabel"></p>
+      <h2 id="treasuryHeading"></h2>
+      <div class="big-number cost" id="treasuryCost">£0</div>
+      <div class="sub-number" id="treasurySub"></div>
     </div>
 
     <div class="panel email-slot"></div>
   </div>
 
   <div class="navrow">
-    <button class="btn secondary" data-go="0">Back</button>
+    <button class="btn secondary" id="navBack1" data-go="0"></button>
     <div class="dots" aria-hidden="true"></div>
-    <button class="btn blue" data-go="2">Face the verdict</button>
+    <button class="btn blue" id="navNext1" data-go="2"></button>
   </div>
 </section>
 
@@ -361,12 +256,11 @@
   <div class="card">
     <div class="ledger-rule" aria-hidden="true"></div>
     <div class="panel verdict-panel" aria-live="polite">
-      <div class="stamp" id="stamp">Awaiting Budget</div>
+      <div class="stamp" id="stamp"></div>
       <p class="verdict-sub" id="verdictSub"></p>
-      <p class="neutral-hint" id="neutralHint"></p>
     </div>
     <div class="panel">
-      <p class="panel-label">Step 3 · What the Treasury gives up</p>
+      <p class="panel-label" id="sacrificePanelLabel"></p>
       <p class="lede" id="sacrificeIntro"></p>
       <ul class="equiv-list" id="treasuryEquivs"></ul>
     </div>
@@ -374,45 +268,73 @@
   </div>
 
   <div class="navrow">
-    <button class="btn secondary" data-go="1">Back to the Budget</button>
+    <button class="btn secondary" id="navBack2" data-go="1"></button>
     <div class="dots" aria-hidden="true"></div>
-    <button class="btn blue" data-go="3">The small print</button>
+    <button class="btn blue" id="navNext2" data-go="3"></button>
   </div>
 </section>
 
-<!-- ============ SLIDE 3 · SMALL PRINT ============ -->
-<section class="slide" id="slide-3" aria-label="The small print">
+<!-- ============ SLIDE 3 · THE GGF FIX ============ -->
+<section class="slide" id="slide-3" aria-label="The Good Growth fix">
   <div class="card">
     <div class="ledger-rule" aria-hidden="true"></div>
     <div class="panel">
-      <p class="panel-label">Step 4 · The small print</p>
-      <h2>There's always a catch</h2>
-      <div class="catch" id="catchBox"></div>
+      <p class="panel-label" id="propPanelLabel"></p>
+      <h2 id="propHeading"></h2>
+      <p class="lede" id="propLede"></p>
+
+      <div class="proposal-input">
+        <div class="ctl-head">
+          <label for="salary" id="lblSalary"></label>
+          <span class="ctl-value"><span class="cur">£</span><input type="number" id="salary" min="0" max="250000" step="500" value="36000" inputmode="numeric"></span>
+        </div>
+        <input type="range" id="salarySlider" min="20000" max="120000" step="500" value="36000" aria-label="Salary slider">
+        <p class="ctl-note" id="noteSalary"></p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 style="font-size:14px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft); font-weight:700;" id="savingHeading"></h2>
+      <div class="big-number gain" id="yourSaving">£0</div>
+      <div class="sub-number" id="yourMonthly"></div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-label" id="spoilsPanelLabel"></p>
+      <p class="lede" id="spoilsIntro"></p>
+      <ul class="equiv-list you" id="yourEquivs"></ul>
       <details class="method">
-        <summary>Methodology &amp; health warnings</summary>
-        <p>This is an illustrative, directional model — a game, not an official fiscal costing. It uses a static representative-borrower approach: the workforce is split into twelve salary bands from ONS ASHE 2025 full-time earnings percentiles, scaled by a 1.125 graduate premium, and repayments are computed as 9% of income above the threshold, per year, for the full term, weighted across bands and multiplied by the 2022/23 cohort of 108,340 borrowers (DfE/LEO). The baseline weighted average lifetime repayment of £57,583 calibrates within 2.8% of the IFS benchmark of £56,000.</p>
-        <p>Big caveats: earnings are held flat for life (no career progression), loan balances, interest and write-offs aren't simulated, behaviour doesn't change, and all figures are undiscounted cash for a single cohort — so cash neutrality is not fiscal neutrality. Real-world cost equivalents are rough public-domain ballparks for scale, not procurement quotes. Plan 2 rules as at April 2026: threshold £29,385, rate 9%, 30-year write-off.</p>
+        <summary id="methodSummary"></summary>
+        <p id="methodP1"></p>
+        <p id="methodP2"></p>
       </details>
     </div>
+
     <div class="panel email-slot"></div>
   </div>
 
   <div class="navrow">
-    <button class="btn secondary" data-go="2">Back</button>
+    <button class="btn secondary" id="navBack3" data-go="2"></button>
     <div class="dots" aria-hidden="true"></div>
-    <button class="btn" data-go="1">Play it again</button>
+    <button class="btn" id="navPlay" data-go="1"></button>
   </div>
 </section>
 
+<script src="game-text.js"></script>
 <script>
 (function(){
   'use strict';
 
   // =====================================================================
-  // CONFIG — paste your form endpoint here (e.g. Formspree or Web3Forms).
-  // Leave blank to test the flow without sending anything anywhere.
+  // CONFIG
+  // FORM_ENDPOINT — paste your Formspree/Web3Forms endpoint; blank = test mode.
+  // PROPOSAL_THRESHOLD / PROPOSAL_RATE — the GGF plan used on the final page.
   // =====================================================================
   var FORM_ENDPOINT = "";
+  var PROPOSAL_THRESHOLD = 33696;
+  var PROPOSAL_RATE = 0.09;
+
+  var T = window.GAME_TEXT;
 
   // ===== Model (replicates the spreadsheet) =====
   var BANDS = [
@@ -420,70 +342,62 @@
     [36964.125,0.10],[41522.625,0.10],[46823.625,0.10],[53053.875,0.10],
     [58569.75,0.05],[63614.25,0.05],[76492.125,0.10],[99508.5,0.10]
   ];
-  var RATE = 0.09, BASE_THRESHOLD = 29385, BASE_TERM = 30, COHORT = 108340;
+  var BASE_THRESHOLD = 29385, BASE_RATE = 0.09, TERM = 30, COHORT = 108340;
 
-  function weightedLifetime(t, term){
-    var s = 0;
-    for (var i=0;i<BANDS.length;i++) s += BANDS[i][1]*Math.max(0,BANDS[i][0]-t)*RATE*term;
+  function annual(mid, thr, rate){ return Math.max(0, mid-thr)*rate; }
+  function weightedLifetime(thr, rate){
+    var s=0;
+    for (var i=0;i<BANDS.length;i++) s += BANDS[i][1]*annual(BANDS[i][0],thr,rate)*TERM;
     return s;
   }
-  var BASELINE = weightedLifetime(BASE_THRESHOLD, BASE_TERM);
-  function cohortEffect(t, term){ return (weightedLifetime(t,term)-BASELINE)*COHORT; }
-  function cashNeutralTerm(t){
-    for (var y=30;y<=40;y++) if (cohortEffect(t,y) >= 0) return y;
-    return null;
-  }
-  function personalAnnual(sal,t){ return Math.max(0, sal-t)*RATE; }
+  var BASELINE = weightedLifetime(BASE_THRESHOLD, BASE_RATE);
+  function cohortEffect(thr, rate){ return (weightedLifetime(thr,rate)-BASELINE)*COHORT; } // -ve = cost
 
   // ===== Formatting =====
   var gbp0 = new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0});
   var num0 = new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
-
-  // ===== Verdict (bad at both ends) =====
-  function verdict(effect){
-    var cost = -effect;
-    if (cost >= 2e9) return {t:'Economy crashed', c:'', s:'Gilt yields are vertical, the pound has opinions, and a junior official has been sent to find the IMF\u2019s phone number. Generosity on this scale needs paying for \u2014 try the term lever, or walk it back.'};
-    if (cost >= 1e9) return {t:'Markets rattled', c:'', s:'Bond traders are using words that can\u2019t be printed in Hansard. Graduates love you; the people who lend the government money do not. Something has to give.'};
-    if (cost >= 4e8) return {t:'OBR sends a stern letter', c:'amber', s:'Not a crash \u2014 more of a pointed cough from the fiscal watchdog. Generous to graduates, expensive for the Exchequer. The spreadsheet people are pacing.'};
-    if (cost >= 5e7) return {t:'Treasury grumbles', c:'amber', s:'A real cost, but the kind that gets buried in Annex C of a fiscal event. Officials will scowl. The bond market will not notice you exist.'};
-    if (cost > -5e7) return {t:'Cash neutral', c:'green', s:'Remarkable. Graduates feel richer every month, the Treasury\u2019s lifetime take is unchanged, and nobody has resigned. You may be Chancellor material \u2014 the small print awaits.'};
-    var gain = -cost;
-    if (gain < 4e8) return {t:'Graduates grumble', c:'amber', s:'The Treasury comes out ahead \u2014 which means graduates pay more over their lifetimes than under today\u2019s rules. The Exchequer is quietly pleased. Your postbag is not.'};
-    if (gain < 1e9) return {t:'NUS declares war', c:'amber', s:'You\u2019ve squeezed hundreds of millions extra out of one cohort of graduates. There are petitions, there are placards, and someone has made a very unflattering meme of your fiscal stance.'};
-    if (gain < 2e9) return {t:'Graduates march on Westminster', c:'', s:'You\u2019ve turned the loan book into a profit centre on the backs of people who can\u2019t afford a house deposit. Whitehall is kettled. The youth vote has left the building, permanently.'};
-    return {t:'Government collapses', c:'', s:'Billions extracted from a single graduating year. The backbenches are in open revolt, three ministers have resigned by lunchtime, and the economy you saved no longer has anyone to run it. Bad ending \u2014 just a different one.'};
+  function fmtBig(x){
+    var a=Math.abs(x);
+    if (a>=1e9) return '\u00a3'+(a/1e9).toFixed(2).replace(/\.?0+$/,'')+'bn';
+    if (a>=1e6) return '\u00a3'+Math.round(a/1e6)+'m';
+    return gbp0.format(a);
+  }
+  function fmt(s, map){
+    return s.replace(/\{(\w+)\}/g, function(m,k){ return (k in map) ? map[k] : m; });
   }
 
-  // ===== Treasury equivalents =====
-  var TREASURY_ITEMS = [
-    {cost:70,    label:'potholes filled (at roughly \u00a370 a pop)'},
-    {cost:480,   label:'children given free school meals for a year'},
-    {cost:40000, label:'newly qualified nurses employed for a year'},
-    {cost:45000, label:'teachers paid for a year'},
-    {cost:1.2e6, label:'MRI scanners for the NHS'},
-    {cost:3e7,   label:'brand-new secondary schools'},
-    {cost:3.3e7, label:'miles of new motorway'},
-    {cost:2.5e8, label:'mid-size hospital rebuilds'}
-  ];
-  var YOU_ITEMS = [
-    {cost:1.30,  label:'Greggs sausage rolls'},
-    {cost:3.80,  label:'flat whites'},
-    {cost:5.90,  label:'pints'},
-    {cost:12.99, label:'months of Netflix'},
-    {cost:65,    label:'big weekly food shops'},
-    {cost:120,   label:'return flights to M\u00e1laga'},
-    {cost:390,   label:'Glastonbury tickets (resale not included)'},
-    {cost:1100,  label:'decent second-hand sofas'}
-  ];
-  function renderEquivs(el, amount, items, fallback){
-    el.innerHTML = '';
-    var picks = [];
+  // ===== Verdict =====
+  // Based on cost to the Treasury at current 30-year rules.
+  // Sweet spot = £600m–£1.4bn: the range the model shows is recoverable
+  // through long-term adjustments; the GGF proposal (~£983m) sits near its midpoint.
+  function verdict(effect){
+    var cost = -effect, V = T.verdict;
+    if (cost >= 4e9)   return {v:V.econCrashed, c:''};
+    if (cost >= 2.5e9) return {v:V.marketsRattled, c:''};
+    if (cost >= 1.4e9) return {v:V.obrLetter, c:'amber'};
+    if (cost >= 6e8)   return {v:V.sweetSpot, c:'green'};
+    if (cost >= 1e8)   return {v:V.tinkering, c:'amber'};
+    if (cost > -1e8)   return {v:V.nothingChanges, c:'amber'};
+    var gain = -cost;
+    if (gain < 1e9) return {v:V.nusWar, c:''};
+    if (gain < 2e9) return {v:V.gradsMarch, c:''};
+    return {v:V.collapse, c:''};
+  }
+
+  // ===== Equivalents =====
+  function renderEquivs(el, amount, items, fallback, cls){
+    el.className='equiv-list'+(cls?' '+cls:'');
+    el.innerHTML='';
+    var picks=[];
     for (var i=items.length-1;i>=0 && picks.length<3;i--){
-      var n = amount/items[i].cost;
+      var n=amount/items[i].cost;
       if (n>=1) picks.push({n:n,label:items[i].label});
     }
     if (!picks.length){
-      el.innerHTML = '<li><span class="equiv-count">\u2014</span><span>'+fallback+'</span></li>';
+      var liF=document.createElement('li');
+      liF.innerHTML='<span class="equiv-count">\u2014</span>';
+      var sp=document.createElement('span'); sp.textContent=fallback; liF.appendChild(sp);
+      el.appendChild(liF);
       return;
     }
     picks.sort(function(a,b){return a.n-b.n;});
@@ -495,152 +409,137 @@
     });
   }
 
-  // ===== Chart =====
+  // ===== Charts =====
   function bandLabel(m){ return '\u00a3'+Math.round(m/1000)+'k'; }
-  function userBandIndex(sal){
-    var best=0, bd=Infinity;
-    for (var i=0;i<BANDS.length;i++){
-      var d=Math.abs(BANDS[i][0]-sal);
-      if (d<bd){bd=d; best=i;}
-    }
-    return best;
-  }
-  function renderChart(thr, sal){
-    var reform = BANDS.map(function(b){ return Math.max(0,b[0]-thr)*RATE; });
-    var ub = userBandIndex(sal);
-    var W=760, H=320, mL=46, mR=12, mT=30, mB=44;
+
+  // Chart A: annual repayments per band (all >= 0)
+  function renderChartA(thr, rate){
+    var vals=BANDS.map(function(b){ return annual(b[0],thr,rate); });
+    var W=760, H=300, mL=46, mR=12, mT=30, mB=44;
     var iw=W-mL-mR, ih=H-mT-mB;
-    var maxV=Math.max.apply(null, reform.concat([100]));
+    var maxV=Math.max.apply(null, vals.concat([100]));
     function y(v){ return mT + (maxV-v)/maxV*ih; }
-    var zeroY=y(0);
-    var n=BANDS.length, slot=iw/n, bw=Math.min(40, slot*0.62);
+    var zeroY=y(0), n=BANDS.length, slot=iw/n, bw=Math.min(40, slot*0.62);
     var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">';
     svg+='<line x1="'+mL+'" y1="'+zeroY+'" x2="'+(W-mR)+'" y2="'+zeroY+'" stroke="#112743" stroke-width="1.5"/>';
     svg+='<text x="'+(mL-8)+'" y="'+(zeroY+4)+'" text-anchor="end" font-size="11" font-weight="700" fill="#4a5c75">\u00a30</text>';
     for (var i=0;i<n;i++){
-      var v=reform[i];
-      var x=mL+slot*i+(slot-bw)/2;
-      var barTop=y(v);
-      var barH=Math.max(zeroY-barTop, 2);
-      var fill = i===ub ? '#C4D54B' : '#2361B4';
-      svg+='<rect x="'+x+'" y="'+barTop+'" width="'+bw+'" height="'+barH+'" rx="4" fill="'+fill+'"/>';
+      var v=vals[i], x=mL+slot*i+(slot-bw)/2, barTop=y(v), barH=Math.max(zeroY-barTop,2);
+      svg+='<rect x="'+x+'" y="'+barTop+'" width="'+bw+'" height="'+barH+'" rx="4" fill="#2361B4"/>';
       svg+='<text x="'+(x+bw/2)+'" y="'+(barTop-6)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#112743">\u00a3'+num0.format(Math.round(v))+'</text>';
-      svg+='<text x="'+(x+bw/2)+'" y="'+(H-26)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4a5c75">'+bandLabel(BANDS[i][0])+'</text>';
-      if (i===ub) svg+='<text x="'+(x+bw/2)+'" y="'+(H-12)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#112743">YOU</text>';
+      svg+='<text x="'+(x+bw/2)+'" y="'+(H-22)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4a5c75">'+bandLabel(BANDS[i][0])+'</text>';
     }
-    svg+='<text x="'+(mL+iw/2)+'" y="'+(H-0.5)+'" text-anchor="middle" font-size="10" font-weight="600" fill="#4a5c75">Salary band (graduate-adjusted, ONS ASHE 2025)</text>';
+    svg+='<text x="'+(mL+iw/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="10" font-weight="600" fill="#4a5c75">'+T.chartA.axisCaption+'</text>';
     svg+='</svg>';
-    document.getElementById('chartWrap').innerHTML=svg;
+    document.getElementById('chartAWrap').innerHTML=svg;
+  }
 
-    var cap=document.getElementById('chartCaption');
-    if (thr>BASE_THRESHOLD){
-      cap.textContent='Higher threshold, lighter bills: every repayer\u2019s bar is lower than under today\u2019s \u00a329,385 rules, and anyone earning below your line drops to zero entirely. What that\u2019s worth to you is in Step 2.';
-    } else if (thr<BASE_THRESHOLD){
-      cap.textContent='You\u2019ve pulled the threshold below today\u2019s \u00a329,385, so every band repays more than under current rules \u2014 including people who currently repay nothing at all.';
-    } else {
-      cap.textContent='Your threshold matches today\u2019s rules, so everyone repays exactly what they already repay. A quiet Budget. Suspiciously quiet.';
+  // Chart B: savings vs today per band (can be negative)
+  function renderChartB(thr, rate){
+    var vals=BANDS.map(function(b){
+      return annual(b[0],BASE_THRESHOLD,BASE_RATE) - annual(b[0],thr,rate); // +ve = saving
+    });
+    var W=760, H=300, mL=52, mR=12, mT=30, mB=44;
+    var iw=W-mL-mR, ih=H-mT-mB;
+    var maxV=Math.max.apply(null, vals.concat([50]));
+    var minV=Math.min.apply(null, vals.concat([0]));
+    var span=(maxV-minV)||1;
+    function y(v){ return mT + (maxV-v)/span*ih; }
+    var zeroY=y(0), n=BANDS.length, slot=iw/n, bw=Math.min(40, slot*0.62);
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">';
+    svg+='<line x1="'+mL+'" y1="'+zeroY+'" x2="'+(W-mR)+'" y2="'+zeroY+'" stroke="#112743" stroke-width="1.5"/>';
+    svg+='<text x="'+(mL-8)+'" y="'+(zeroY+4)+'" text-anchor="end" font-size="11" font-weight="700" fill="#4a5c75">\u00a30</text>';
+    for (var i=0;i<n;i++){
+      var v=vals[i], x=mL+slot*i+(slot-bw)/2;
+      var barTop=v>=0?y(v):zeroY;
+      var barH=Math.max(Math.abs(y(v)-zeroY),2);
+      var fill=v<0?'#EC704A':'#00A787';
+      svg+='<rect x="'+x+'" y="'+barTop+'" width="'+bw+'" height="'+barH+'" rx="4" fill="'+fill+'"/>';
+      var lblY=v>=0?barTop-6:barTop+barH+13;
+      var lbl=(v<0?'\u2212':'')+'\u00a3'+num0.format(Math.round(Math.abs(v)));
+      svg+='<text x="'+(x+bw/2)+'" y="'+lblY+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="'+(v<0?'#EC704A':'#112743')+'">'+lbl+'</text>';
+      svg+='<text x="'+(x+bw/2)+'" y="'+(H-22)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4a5c75">'+bandLabel(BANDS[i][0])+'</text>';
     }
+    svg+='<text x="'+(mL+iw/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="10" font-weight="600" fill="#4a5c75">'+T.chartA.axisCaption+'</text>';
+    svg+='</svg>';
+    document.getElementById('chartBWrap').innerHTML=svg;
+
+    var cap=document.getElementById('chartBCaption');
+    var hasPos=vals.some(function(v){return v>0.5;}), hasNeg=vals.some(function(v){return v<-0.5;});
+    if (hasPos && hasNeg) cap.textContent=T.chartB.captionMixed;
+    else if (hasPos) cap.textContent=T.chartB.captionBetter;
+    else if (hasNeg) cap.textContent=T.chartB.captionWorse;
+    else cap.textContent=T.chartB.captionSame;
   }
 
   // ===== State & DOM =====
   var $=function(id){return document.getElementById(id);};
-  var salary=$('salary'), salarySlider=$('salarySlider');
   var threshold=$('threshold'), thresholdSlider=$('thresholdSlider');
-  var term=$('term'), termSlider=$('termSlider');
+  var rate=$('rate'), rateSlider=$('rateSlider');
+  var salary=$('salary'), salarySlider=$('salarySlider');
   var stamp=$('stamp'), lastVerdict='';
 
   function vals(){
     return {
-      sal: Math.max(0, +salary.value||0),
       thr: Math.max(0, +threshold.value||0),
-      term: Math.min(40, Math.max(30, +term.value||30))
+      rate: Math.max(0, (+rate.value||0)/100),
+      sal: Math.max(0, +salary.value||0)
     };
   }
 
   function update(){
     var v=vals();
-    renderChart(v.thr, v.sal);
+    renderChartA(v.thr, v.rate);
+    renderChartB(v.thr, v.rate);
 
-    // --- you ---
-    var baseA=personalAnnual(v.sal,BASE_THRESHOLD), newA=personalAnnual(v.sal,v.thr);
-    var saving=baseA-newA, monthly=saving/12;
-    var lifetimeChange=newA*v.term - baseA*BASE_TERM; // +ve = pay more over a lifetime
-    var ys=$('yourSaving');
-    ys.textContent=(saving<0?'\u2212':'')+gbp0.format(Math.abs(saving));
-    ys.className='big-number '+(saving>0?'gain':saving<0?'cost':'');
-    $('yourMonthly').textContent = saving>0
-      ? gbp0.format(Math.round(Math.abs(monthly)))+' a month back in your pay'
-      : saving<0
-      ? gbp0.format(Math.round(Math.abs(monthly)))+' a month MORE out of your pay, you monster'
-      : (v.sal<=Math.min(v.thr,BASE_THRESHOLD) ? 'You earn below the threshold \u2014 you repay nothing either way' : 'No change at this salary and threshold');
-    var yl=$('yourLifetime');
-    yl.textContent=(lifetimeChange>0?'+':lifetimeChange<0?'\u2212':'')+gbp0.format(Math.abs(Math.round(lifetimeChange)));
-    yl.className='big-number '+(lifetimeChange>0?'cost':lifetimeChange<0?'gain':'');
-    $('yourLifetimeNote').textContent = lifetimeChange>0
-      ? 'paid over your lifetime vs today\u2019s rules \u2014 the '+v.term+'-year term outweighs the annual saving'
-      : lifetimeChange<0
-      ? 'less paid over your lifetime than under today\u2019s rules'
-      : 'your lifetime repayments are unchanged';
-
-    // --- what you could buy ---
-    var spoils=$('spoilsIntro'), youList=$('yourEquivs');
-    if (saving>0){
-      spoils.textContent='Your annual saving, converted into the things that actually matter:';
-      youList.className='equiv-list you';
-      renderEquivs(youList, saving, YOU_ITEMS, 'Not enough for a sausage roll. The Treasury weeps with relief.');
-    } else if (saving<0){
-      spoils.textContent='You lowered the threshold on yourself. Each year you now forgo:';
-      youList.className='equiv-list negative';
-      renderEquivs(youList, Math.abs(saving), YOU_ITEMS, 'Less than a sausage roll. Barely counts.');
-    } else {
-      spoils.textContent='Nothing changes for you at this salary and threshold \u2014 your sausage roll budget is safe.';
-      youList.innerHTML='';
+    // --- treasury figure ---
+    var effect=cohortEffect(v.thr, v.rate);
+    var tc=$('treasuryCost');
+    if (Math.abs(effect)<1e8 && Math.abs(effect)>=0 && Math.abs(effect)<1e8){
+      // neutral-ish still shows the signed figure
     }
+    tc.textContent=(effect<0?'\u2212':'+')+fmtBig(effect);
+    tc.className='big-number '+(effect<0?'cost':'gain');
+    $('treasurySub').textContent = effect<-1e8 ? T.treasury.subCost : effect>1e8 ? T.treasury.subGain : T.treasury.subNeutral;
 
-    // --- the catch (personalised, slide 3) ---
-    var catchBox=$('catchBox');
-    if (v.term>30 && newA>0 && lifetimeChange>50){
-      catchBox.innerHTML='<strong>The catch.</strong> The term extension that balances the books means <em>you</em> repay for '+v.term+' years instead of 30. Despite saving '+gbp0.format(Math.round(saving))+' a year, you\u2019d pay roughly <b>'+gbp0.format(Math.round(lifetimeChange))+' more over your lifetime</b> (assuming your salary never changes \u2014 see methodology). Monthly relief, lifetime bill. Welcome to fiscal policy.';
-    } else if (v.term>30 && newA>0 && lifetimeChange<-50){
-      catchBox.innerHTML='<strong>No catch for you, actually.</strong> Even with the longer term, at this salary you\u2019d pay roughly <b>'+gbp0.format(Math.abs(Math.round(lifetimeChange)))+' less over your lifetime</b>. The extension is funded by people earning more than you. Wave at them.';
-    } else if (v.term>30 && newA>0){
-      catchBox.innerHTML='<strong>Almost perfectly balanced.</strong> Your lifetime repayments are within '+gbp0.format(Math.abs(Math.round(lifetimeChange)))+' of today\u2019s rules \u2014 you\u2019re smoothing your cash flow, not changing what you ultimately pay.';
-    } else {
-      catchBox.innerHTML='<strong>Cash neutral is not cost free.</strong> The rescue lever \u2014 extending the repayment term \u2014 balances the books by collecting more from graduates later in their careers. Monthly relief now, a longer repayment tail later, funded by the higher earners still repaying in years 31 to 40. And money received decades from now is worth less than money received today, so even a \u201ccash neutral\u201d Budget carries a real present-value cost. Every version of this policy is a trade-off about who pays, and when.';
-    }
-
-    var effect=cohortEffect(v.thr, v.term);
+    // --- verdict ---
     var vd=verdict(effect);
-    if (vd.t!==lastVerdict){
-      lastVerdict=vd.t;
-      stamp.textContent=vd.t;
+    if (vd.v.title!==lastVerdict){
+      lastVerdict=vd.v.title;
+      stamp.textContent=vd.v.title;
       stamp.className='stamp '+vd.c+' slam';
       void stamp.offsetWidth;
     }
-    $('verdictSub').textContent=vd.s;
+    $('verdictSub').textContent=vd.v.sub;
 
-    var hint=$('neutralHint');
-    if (effect < -5e7){
-      var nt=cashNeutralTerm(v.thr);
-      hint.innerHTML = nt
-        ? 'Cheat sheet: at this threshold, the books balance (in cash terms) if you extend the term to <b>'+nt+' years</b>. Go back and pull the lever.'
-        : 'Cheat sheet: at this threshold, no term extension up to 40 years balances the books. This one\u2019s structural.';
-    } else if (effect>=-5e7 && effect<5e7 && v.term>30){
-      hint.innerHTML='You balanced it with a <b>'+(v.term-30)+'-year</b> term extension. The small print explains who\u2019s really paying.';
+    // --- sacrifice ---
+    var intro=$('sacrificeIntro');
+    if (effect < -1e8){
+      intro.textContent=T.sacrifice.introCost;
+      renderEquivs($('treasuryEquivs'), Math.abs(effect), T.sacrifice.items, T.sacrifice.fallback, '');
+    } else if (effect > 1e8){
+      intro.textContent=T.sacrifice.introGain;
+      renderEquivs($('treasuryEquivs'), effect, T.sacrifice.items, T.sacrifice.fallback, '');
     } else {
-      hint.textContent='';
+      intro.textContent=T.sacrifice.introNeutral;
+      $('treasuryEquivs').innerHTML='';
     }
 
-    var intro=$('sacrificeIntro');
-    if (effect < -5e7){
-      intro.textContent='Over this cohort\u2019s lifetimes, covering the hole your Budget leaves would mean the Exchequer finding the equivalent of:';
-      renderEquivs($('treasuryEquivs'), Math.abs(effect), TREASURY_ITEMS, 'Not even a pothole. Carry on.');
-    } else if (effect > 5e7){
-      intro.textContent='Your Budget squeezes extra out of graduates over their lifetimes \u2014 enough, in Exchequer terms, to fund:';
-      renderEquivs($('treasuryEquivs'), effect, TREASURY_ITEMS, 'Not even a pothole. Carry on.');
+    // --- proposal page (uses fixed GGF settings, not the sliders) ---
+    var saving = annual(v.sal, BASE_THRESHOLD, BASE_RATE) - annual(v.sal, PROPOSAL_THRESHOLD, PROPOSAL_RATE);
+    saving = Math.max(0, saving);
+    var monthlyStr=gbp0.format(Math.round(saving/12));
+    $('yourSaving').textContent=gbp0.format(Math.round(saving));
+    $('yourMonthly').textContent = saving>0.5
+      ? fmt(T.proposal.monthlyPositive,{MONTHLY:monthlyStr})
+      : (v.sal<=BASE_THRESHOLD ? T.proposal.belowThreshold : T.proposal.noChange);
+    var spoils=$('spoilsIntro');
+    if (saving>0.5){
+      spoils.textContent=T.spoils.introPositive;
+      renderEquivs($('yourEquivs'), saving, T.spoils.items, T.spoils.fallbackPositive, 'you');
     } else {
-      intro.textContent='Roughly nothing \u2014 the lifetime cash take is broadly unchanged. The trade-off is hiding in the small print instead.';
-      $('treasuryEquivs').innerHTML='';
+      spoils.textContent='';
+      $('yourEquivs').innerHTML='';
     }
   }
 
@@ -652,7 +551,48 @@
       update();
     });
   }
-  link(salary,salarySlider); link(threshold,thresholdSlider); link(term,termSlider);
+  link(threshold,thresholdSlider); link(rate,rateSlider); link(salary,salarySlider);
+
+  // ===== Static copy from GAME_TEXT =====
+  function applyStaticText(){
+    $('heroTagline').textContent=T.hero.tagline;
+    $('heroTitle').innerHTML=T.hero.title;
+    $('heroStandfirst').textContent=T.hero.standfirst;
+    $('startBtn').textContent=T.hero.startButton;
+    $('lblThreshold').textContent=T.controls.thresholdLabel;
+    $('noteThreshold').textContent=T.controls.thresholdNote;
+    $('lblRate').textContent=T.controls.rateLabel;
+    $('noteRate').textContent=T.controls.rateNote;
+    $('chartAPanelLabel').textContent=T.chartA.panelLabel;
+    $('chartAHeading').textContent=T.chartA.heading;
+    $('chartALede').textContent=T.chartA.lede;
+    $('legendA').textContent=T.chartA.legendBar;
+    $('chartBPanelLabel').textContent=T.chartB.panelLabel;
+    $('chartBHeading').textContent=T.chartB.heading;
+    $('chartBLede').textContent=T.chartB.lede;
+    $('legendBPos').textContent=T.chartB.legendPos;
+    $('legendBNeg').textContent=T.chartB.legendNeg;
+    $('treasuryPanelLabel').textContent=T.treasury.panelLabel;
+    $('treasuryHeading').textContent=T.treasury.heading;
+    $('sacrificePanelLabel').textContent=T.sacrifice.panelLabel;
+    $('propPanelLabel').textContent=T.proposal.panelLabel;
+    $('propHeading').textContent=T.proposal.heading;
+    $('propLede').textContent=T.proposal.lede;
+    $('lblSalary').textContent=T.proposal.salaryLabel;
+    $('noteSalary').textContent=T.proposal.salaryNote;
+    $('savingHeading').textContent=T.proposal.savingHeading;
+    $('spoilsPanelLabel').textContent=T.spoils.panelLabel;
+    $('methodSummary').textContent=T.smallPrint.methodSummary;
+    $('methodP1').textContent=T.smallPrint.methodP1;
+    $('methodP2').textContent=T.smallPrint.methodP2;
+    $('stamp').textContent=T.verdict.awaiting;
+    $('navBack1').textContent=T.nav.back;
+    $('navNext1').textContent=T.nav.toVerdict;
+    $('navBack2').textContent=T.nav.backToBudget;
+    $('navNext2').textContent=T.nav.toProposal;
+    $('navBack3').textContent=T.nav.back;
+    $('navPlay').textContent=T.nav.playAgain;
+  }
 
   // ===== Slides =====
   var slides=document.querySelectorAll('.slide');
@@ -666,9 +606,7 @@
       Array.prototype.forEach.call(g.children, function(d,i){ d.classList.toggle('on', i===n); });
     });
     window.scrollTo({top:0, behavior:'auto'});
-    if (n===2){ // re-slam stamp on arrival
-      lastVerdict=''; update();
-    }
+    if (n===2){ lastVerdict=''; update(); }
   }
   document.body.addEventListener('click', function(e){
     var b=e.target.closest('[data-go]');
@@ -682,28 +620,29 @@
 
   // ===== Report signup (rendered into every .email-slot) =====
   var emailSubscribed = '';
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
   function renderEmailSlots(){
     document.querySelectorAll('.email-slot').forEach(function(slot){
       if (emailSubscribed){
         slot.innerHTML =
           '<div class="report-card">'+
-            '<h3>You\u2019re on the list, <em style="font-style:normal;color:var(--yellow)">'+emailSubscribed+'</em></h3>'+
-            '<p>Our student loans report will land in your inbox as soon as it\u2019s published.</p>'+
+            '<h3>'+fmt(esc(T.email.successHeading),{EMAIL:'<em style="font-style:normal;color:var(--yellow)">'+esc(emailSubscribed)+'</em>'})+'</h3>'+
+            '<p>'+esc(T.email.successBody)+'</p>'+
           '</div>';
       } else {
         slot.innerHTML =
           '<div class="report-card">'+
-            '<h3>Want the full picture?</h3>'+
-            '<p>We\u2019re publishing a report on how to fix student loans without crashing the economy. Pop in your email and we\u2019ll send it to you when it lands.</p>'+
-            '<div class="form-grid" style="grid-template-columns:1fr;max-width:420px;">'+
-              '<div class="form-field"><label>Email</label>'+
-              '<input type="email" class="femail" autocomplete="email" placeholder="you@example.com" required></div>'+
+            '<h3>'+esc(T.email.heading)+'</h3>'+
+            '<p>'+esc(T.email.body)+'</p>'+
+            '<div class="form-grid">'+
+              '<div class="form-field"><label>'+esc(T.email.fieldLabel)+'</label>'+
+              '<input type="email" class="femail" autocomplete="email" placeholder="'+esc(T.email.placeholder)+'" required></div>'+
             '</div>'+
             '<div class="form-actions">'+
-              '<button class="btn send-report">Send me the report</button>'+
+              '<button class="btn send-report">'+esc(T.email.button)+'</button>'+
               '<span class="form-msg" role="status"></span>'+
             '</div>'+
-            '<p class="small-print">We\u2019ll use your email to send the report and occasional updates on this campaign, in line with our privacy policy. Unsubscribe any time.</p>'+
+            '<p class="small-print">'+esc(T.email.smallPrint)+'</p>'+
           '</div>';
       }
     });
@@ -716,7 +655,7 @@
     var msg=card.querySelector('.form-msg');
     var email=input.value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-      msg.textContent='Please enter a valid email address.'; msg.className='form-msg err';
+      msg.textContent=T.email.invalid; msg.className='form-msg err';
       input.focus(); return;
     }
     var payload={
@@ -724,10 +663,10 @@
       subject:'Threshold Game \u2014 student loans report signup',
       message:'PLACEHOLDER: send this person the Good Growth Foundation student loans report when published.'
     };
-    msg.textContent='Sending\u2026'; msg.className='form-msg';
+    msg.textContent=T.email.sending; msg.className='form-msg';
     var done=function(ok){
       if (ok){ emailSubscribed=email; renderEmailSlots(); }
-      else { msg.textContent='That didn\u2019t send \u2014 please try again in a moment.'; msg.className='form-msg err'; }
+      else { msg.textContent=T.email.failed; msg.className='form-msg err'; }
     };
     if (!FORM_ENDPOINT){
       console.warn('FORM_ENDPOINT not set \u2014 simulating success. Payload:', payload);
@@ -740,9 +679,10 @@
       body:JSON.stringify(payload)
     }).then(function(r){done(r.ok);}).catch(function(){done(false);});
   });
-  renderEmailSlots();
 
   // init
+  applyStaticText();
+  renderEmailSlots();
   update();
 })();
 </script>
