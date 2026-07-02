@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Threshold Game | Good Growth Foundation</title>
+<meta name="description" content="You're the Chancellor for one Budget. Set the student loan repayment threshold and term, see who pays what, and find out if you crashed the economy. By the Good Growth Foundation.">
+<meta property="og:title" content="The Threshold Game: could you fix student loans?">
+<meta property="og:description" content="Play Chancellor for one Budget. Move the repayment threshold, balance the books, and find the sweet spot. By the Good Growth Foundation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tool.goodgrowthfoundation.co.uk/">
+<meta property="og:image" content="https://tool.goodgrowthfoundation.co.uk/share-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://tool.goodgrowthfoundation.co.uk/share-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#112743; --bright-blue:#2361B4; --yellow:#C4D54B; --orange:#EC704A;
+    --pale-blue:#99ACFF; --green:#00A787; --off-white:#EBEBEB; --card:#FFFFFF;
+    --ink:#112743; --ink-soft:#4a5c75; --line:#d8dde4;
+    --font:'Manrope', -apple-system, system-ui, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--navy); color:var(--ink); font-family:var(--font);
+    min-height:100vh; padding:0 16px 60px; overflow-x:hidden;}
+  html.embedded body{min-height:0;}
+  input, select, textarea, button{font-family:var(--font);}
+  .shape{position:fixed; z-index:0; pointer-events:none;}
+  .shape-1{left:-150px; bottom:-130px; width:430px; opacity:.9;}
+  .shape-2{right:-280px; top:-60px; width:660px; opacity:.85;}
+  .shape-1 polygon, .shape-2 polygon{fill:var(--pale-blue);}
+  @media(max-width:760px){
+    .shape-1{width:280px; left:-110px; bottom:-90px;}
+    .shape-2{width:380px; right:-170px;}
+  }
+  .wordmark{position:relative; z-index:2; max-width:920px; margin:0 auto; padding:28px 8px 0;
+    color:#fff; font-weight:800; font-size:20px; line-height:1.15; letter-spacing:-.01em;}
+  .wordmark span{display:block;}
+  .wordmark small{display:block; margin-top:6px; font-size:11px; font-weight:700;
+    letter-spacing:.24em; text-transform:uppercase; color:var(--pale-blue);}
+  .slide{display:none; position:relative; z-index:1;}
+  .slide:focus{outline:none;}
+  .slide.active{display:block; animation:fadeUp .45s ease both;}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
+  @media(prefers-reduced-motion:reduce){.slide.active{animation:none;}}
+  .hero{max-width:920px; margin:0 auto; padding:9vh 8px 60px; color:#fff;}
+  .hero h1{font-weight:800; font-size:clamp(44px,8.5vw,86px); line-height:1.0;
+    letter-spacing:-.03em; max-width:11ch;}
+  .hero h1 em{font-style:normal; color:var(--yellow);}
+  .hero .standfirst{max-width:540px; margin-top:26px; font-size:18px; font-weight:500;
+    line-height:1.6; color:#fff;}
+  .key-hint{margin-top:24px; font-size:13px; font-weight:700; color:#fff;
+    display:flex; align-items:center; gap:7px; flex-wrap:wrap; line-height:1.9;
+    position:relative; z-index:2;}
+  .key-hint kbd{display:inline-flex; align-items:center; justify-content:center;
+    min-width:24px; height:24px; padding:0 7px; border-radius:6px;
+    background:rgba(153,172,255,.2); border:1px solid rgba(153,172,255,.6);
+    box-shadow:0 1px 0 rgba(0,0,0,.3); color:#fff; font-family:var(--font);
+    font-weight:800; font-size:13px; line-height:1;}
+  @media(max-width:760px){.key-hint{display:none;}}
+  .btn{display:inline-block; border:none; cursor:pointer; text-decoration:none; font-family:var(--font);
+    font-weight:800; font-size:16px; letter-spacing:.01em; padding:16px 32px;
+    border-radius:999px; background:var(--yellow); color:var(--navy);
+    transition:transform .15s ease, background .15s ease;}
+  .btn:hover{transform:translateY(-2px); background:#d4e45c;}
+  .btn:focus-visible{outline:3px solid #fff; outline-offset:3px;}
+  .btn.secondary{background:transparent; color:#fff; border:2px solid var(--pale-blue);}
+  .btn.secondary:hover{background:rgba(153,172,255,.12);}
+  .btn.blue{background:var(--bright-blue); color:#fff;}
+  .btn.blue:hover{background:#2d74d4;}
+  .hero .btn{margin-top:30px;}
+  .step-label{max-width:920px; margin:18px auto 0; padding:0 8px; font-size:11px;
+    font-weight:800; letter-spacing:.24em; text-transform:uppercase; color:var(--pale-blue);
+    position:relative; z-index:1;}
+  .card{max-width:920px; margin:10px auto 0; background:var(--card); border-radius:16px;
+    box-shadow:0 30px 60px rgba(0,0,0,.4);}
+  .ledger-rule{height:8px; border-radius:8px 8px 0 0;
+    background:linear-gradient(90deg, var(--bright-blue) 0 25%, var(--green) 25% 50%, var(--yellow) 50% 75%, var(--orange) 75% 100%);}
+  .panel{padding:30px clamp(20px,5vw,44px);}
+  .panel + .panel{border-top:1px solid var(--line);}
+  .panel-label{font-size:11px; letter-spacing:.24em; text-transform:uppercase; font-weight:800;
+    color:var(--bright-blue); margin-bottom:18px; display:flex; align-items:center; gap:12px;}
+  .panel-label::after{content:''; flex:1; height:2px; background:var(--off-white);}
+  .panel h2{font-weight:800; font-size:clamp(24px,4vw,32px); letter-spacing:-.02em; margin-bottom:8px;}
+  .panel .lede{font-size:15px; font-weight:500; color:var(--ink-soft); line-height:1.6; max-width:62ch;}
+  .controls-bar{position:sticky; top:0; z-index:30; background:var(--card);
+    border-radius:16px 16px 0 0; box-shadow:0 10px 24px rgba(17,39,67,.14);
+    padding:18px clamp(20px,5vw,44px) 16px; border-bottom:1px solid var(--line);}
+  .controls{display:grid; grid-template-columns:1fr 1fr; gap:14px 36px;}
+  @media(max-width:680px){.controls{grid-template-columns:1fr;}}
+  .control .ctl-head{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+  .control .ctl-head label{font-weight:800; font-size:13px; letter-spacing:-.01em;}
+  .ctl-value{display:flex; align-items:baseline; gap:2px; font-weight:800;}
+  .ctl-value .cur{font-size:13px; color:var(--ink-soft);}
+  .ctl-value input{font-family:var(--font); font-weight:800; font-size:17px; width:84px;
+    background:transparent; border:none; border-bottom:2px solid var(--navy); color:var(--navy);
+    text-align:right; padding:0 0 1px; font-variant-numeric:tabular-nums;}
+  .ctl-value input:focus{outline:none; border-bottom-color:var(--bright-blue);}
+  .ctl-value .unit{font-size:12px; font-weight:600; color:var(--ink-soft);}
+  input[type=range]{width:100%; margin-top:8px; accent-color:var(--bright-blue); height:20px; cursor:pointer;}
+  input[type=range]:focus-visible{outline:3px solid var(--yellow); outline-offset:2px; border-radius:4px;}
+  /* "Today" reference marker overlaid on a slider track */
+  .slider-wrap{position:relative;}
+  .slider-marker{position:absolute; top:8px; bottom:auto; height:20px; width:2px;
+    background:var(--orange); transform:translateX(-1px); pointer-events:none; z-index:2;
+    border-radius:1px;}
+  .slider-marker::after{content:attr(data-label); position:absolute; top:-15px; left:50%;
+    transform:translateX(-50%); font-size:9.5px; font-weight:800; letter-spacing:.02em;
+    color:var(--orange); white-space:nowrap; text-transform:uppercase;}
+  .ctl-note{font-size:11px; font-weight:600; color:var(--ink-soft); margin-top:3px;}
+  .chart-wrap{margin-top:10px;}
+  .chart-wrap svg{width:100%; height:auto; display:block;}
+  .chart-caption{font-size:12px; font-weight:600; color:var(--ink-soft); margin-top:10px; line-height:1.5;}
+  .legend{display:flex; flex-wrap:wrap; gap:18px; margin-top:8px; font-size:12px; font-weight:700;}
+  .legend span{display:inline-flex; align-items:center; gap:7px;}
+  .legend i{width:14px; height:14px; border-radius:3px; display:inline-block;}
+  .big-number{font-weight:800; font-size:clamp(34px,6vw,52px); font-variant-numeric:tabular-nums;
+    line-height:1.1; letter-spacing:-.02em; color:var(--navy);}
+  .big-number.gain{color:var(--green);}
+  .big-number.cost{color:var(--orange);}
+  .sub-number{font-size:14px; font-weight:600; color:var(--ink-soft); margin-top:8px; max-width:48ch;}
+  .fig-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:12px;}
+  .fig{flex:1 1 130px; min-width:120px; padding:14px 16px; border:1px solid var(--line); border-radius:12px; background:var(--card);}
+  .fig .k{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--ink-soft);}
+  .fig .v{display:block; font-weight:800; font-size:clamp(24px,4.5vw,34px); font-variant-numeric:tabular-nums; line-height:1.15; margin-top:4px;}
+  .fig .u{display:block; font-size:11px; font-weight:600; color:var(--ink-soft); margin-top:2px;}
+  .fig.save{border-color:var(--green); background:rgba(0,167,135,.07);}
+  .fig.save .v{color:var(--green);}
+  .lifetime{font-size:15px; font-weight:700; color:var(--ink); margin-top:14px; max-width:52ch; line-height:1.5;}
+  .lifetime b{color:var(--green); font-weight:800;}
+  .plan-treasury{margin-top:22px; padding-top:18px; border-top:1px solid var(--line);}
+  .pt-fig{font-weight:800; font-size:clamp(26px,4.5vw,38px); font-variant-numeric:tabular-nums; letter-spacing:-.02em; line-height:1.1;}
+  .pt-fig:empty{display:none;}
+  .pt-fig.cost{color:var(--green);}
+  .pt-fig.gain{color:var(--orange);}
+  .report-card{background:var(--navy); color:#fff; border-radius:12px;
+    padding:26px clamp(18px,4vw,32px); margin-top:6px;}
+  .report-card h3{font-weight:800; font-size:21px; letter-spacing:-.02em;}
+  .report-card p{font-size:14px; font-weight:500; color:var(--pale-blue); line-height:1.6;
+    margin-top:8px; max-width:56ch;}
+  .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 18px; margin-top:18px;}
+  @media(max-width:680px){.form-grid{grid-template-columns:1fr;}}
+  .form-field label{display:block; font-size:11px; font-weight:800; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--pale-blue); margin-bottom:6px;}
+  .form-field label .opt{font-weight:600; text-transform:none; letter-spacing:0; opacity:.8;}
+  .form-field input{width:100%; font-family:var(--font); font-weight:600; font-size:15px;
+    padding:12px 14px; border-radius:8px; border:2px solid rgba(153,172,255,.4);
+    background:rgba(255,255,255,.06); color:#fff;}
+  .form-field input::placeholder{color:rgba(153,172,255,.55);}
+  .form-field input:focus{outline:none; border-color:var(--yellow);}
+  .form-actions{margin-top:18px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+  .form-msg{font-size:13px; font-weight:700;}
+  .form-msg.err{color:var(--orange);}
+  .small-print{font-size:11.5px; font-weight:500; color:rgba(255,255,255,.88); margin-top:14px; line-height:1.6;}
+  .verdict-panel{text-align:center; padding-top:42px; padding-bottom:36px; background:var(--off-white);}
+  .stamp{display:inline-block; padding:16px 34px; border-radius:999px; font-weight:800;
+    font-size:clamp(22px,4.5vw,36px); letter-spacing:-.01em; color:#fff;
+    text-transform:uppercase; background:var(--orange);}
+  .stamp.green{background:var(--green);}
+  .stamp.amber{background:var(--yellow); color:var(--navy);}
+  @keyframes slam{0%{transform:scale(1.6); opacity:0;} 60%{transform:scale(.95); opacity:1;} 100%{transform:scale(1);}}
+  .stamp.slam{animation:slam .4s cubic-bezier(.2,.8,.3,1.15) both;}
+  @media(prefers-reduced-motion:reduce){.stamp.slam{animation:none;}}
+  .verdict-sub{margin:20px auto 0; max-width:560px; font-size:16px; font-weight:500; line-height:1.6;}
+  .neutral-hint{margin-top:16px; font-size:13px; font-weight:700; color:var(--bright-blue); line-height:1.6;}
+  .neutral-hint b{color:var(--navy);}
+  .equiv-list{list-style:none; margin-top:10px;}
+  .equiv-list li{display:flex; align-items:center; gap:20px; padding:20px 0;
+    border-bottom:1px solid var(--line); font-size:18px; line-height:1.4; font-weight:600;}
+  .equiv-list li:last-child{border-bottom:none;}
+  .equiv-count{font-weight:800; font-size:34px; min-width:120px; text-align:right;
+    font-variant-numeric:tabular-nums; flex-shrink:0; color:var(--orange); letter-spacing:-.02em;}
+  .equiv-list.you .equiv-count{color:var(--green);}
+  /* Icon tiles sit at the head of each row, colour-matched to the list */
+  .equiv-icon{display:inline-flex; align-items:center; justify-content:center;
+    width:60px; height:60px; flex-shrink:0; border-radius:15px;
+    background:rgba(236,112,74,.12); color:var(--orange);}
+  .equiv-list.you .equiv-icon{background:rgba(0,167,135,.12); color:var(--green);}
+  .equiv-icon svg{width:36px; height:36px;}
+  @media(max-width:560px){
+    .equiv-list li{gap:14px; padding:16px 0; font-size:16px;}
+    .equiv-count{font-size:27px; min-width:72px;}
+    .equiv-icon{width:50px; height:50px; border-radius:13px;}
+    .equiv-icon svg{width:30px; height:30px;}
+  }
+  .proposal-input{max-width:420px; margin-top:14px;}
+  .proposal-input .ctl-head{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+  .proposal-input label{font-weight:800; font-size:14px;}
+  details.method{margin-top:22px; font-size:13px; color:var(--ink-soft); line-height:1.7;}
+  details.method summary{cursor:pointer; font-weight:800; font-size:12px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--bright-blue); margin-bottom:8px;}
+  details.method p + p{margin-top:8px;}
+  .navrow{max-width:920px; margin:22px auto 0; position:sticky; bottom:12px; z-index:40; display:flex;
+    align-items:center; justify-content:space-between; gap:16px; padding:12px 16px;
+    background:rgba(17,39,67,.85); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(153,172,255,.22); border-radius:999px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);}
+  @supports not ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
+    .navrow{background:var(--navy);}
+  }
+  .dots{display:flex; gap:9px;}
+  .dots i{width:9px; height:9px; border-radius:50%; background:rgba(153,172,255,.4);
+    transition:background .2s, transform .2s;}
+  .dots i.on{background:var(--yellow); transform:scale(1.25);}
+
+  /* ===== Share your verdict ===== */
+  .share-cta{padding:6px clamp(20px,5vw,44px) 34px; text-align:center; background:var(--off-white);}
+  .share-cta h3{font-weight:800; font-size:clamp(20px,3.2vw,26px); letter-spacing:-.01em; color:var(--navy);}
+  .share-cta p{font-size:14.5px; font-weight:600; color:var(--ink-soft); margin:6px auto 16px; max-width:44ch; line-height:1.5;}
+  .share-open-btn{display:inline-flex; align-items:center; gap:11px; font-size:19px; padding:18px 46px;
+    box-shadow:0 10px 26px rgba(196,213,75,.5);}
+  .share-open-btn svg{width:22px; height:22px;}
+
+  .share-overlay{position:fixed; inset:0; z-index:1000; display:none; align-items:flex-start; justify-content:center;
+    background:rgba(9,18,33,.72); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    padding:24px 16px; overflow-y:auto;}
+  .share-overlay.open{display:flex; animation:fadeUp .3s ease both;}
+  .share-modal{position:relative; width:100%; max-width:520px; background:var(--card); border-radius:18px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5); padding:26px clamp(18px,4vw,30px) 28px; margin:auto;}
+  .share-modal h3{font-weight:800; font-size:22px; letter-spacing:-.02em; color:var(--navy); padding-right:36px;}
+  .share-modal .share-lede{font-size:13.5px; font-weight:600; color:var(--ink-soft); margin-top:5px; line-height:1.5;}
+  .share-close{position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:50%;
+    border:none; cursor:pointer; background:var(--off-white); color:var(--navy); font-size:20px; font-weight:800;
+    line-height:1; display:flex; align-items:center; justify-content:center; transition:background .15s;}
+  .share-close:hover{background:#dcdfe4;}
+  .share-close:focus-visible{outline:3px solid var(--bright-blue); outline-offset:2px;}
+
+  .share-toggle{display:inline-flex; margin:18px auto 14px; padding:4px; background:var(--off-white);
+    border-radius:999px; gap:2px;}
+  .share-toggle button{border:none; cursor:pointer; background:transparent; color:var(--ink-soft);
+    font-weight:800; font-size:12.5px; letter-spacing:.02em; padding:9px 16px; border-radius:999px;
+    transition:background .15s, color .15s;}
+  .share-toggle button.on{background:var(--card); color:var(--navy); box-shadow:0 2px 6px rgba(17,39,67,.14);}
+  .share-toggle button:focus-visible{outline:2px solid var(--bright-blue); outline-offset:1px;}
+  .share-toggle-wrap{text-align:center;}
+
+  .share-preview{position:relative; width:100%; aspect-ratio:1/1; border-radius:12px; overflow:hidden;
+    background:var(--navy); box-shadow:0 12px 30px rgba(17,39,67,.28);}
+  .share-preview canvas{width:100%; height:100%; display:block;}
+
+  .share-actions{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px;}
+  .share-btn{display:flex; align-items:center; justify-content:center; gap:9px; cursor:pointer;
+    border:none; border-radius:10px; font-family:var(--font); font-weight:800; font-size:14px;
+    padding:13px 14px; color:#fff; transition:transform .12s, filter .15s; text-decoration:none;}
+  .share-btn:hover{transform:translateY(-2px); filter:brightness(1.05);}
+  .share-btn:focus-visible{outline:3px solid var(--navy); outline-offset:2px;}
+  .share-btn svg{width:19px; height:19px; flex-shrink:0;}
+  .share-btn.wide{grid-column:1 / -1;}
+  .share-btn.primary{background:var(--bright-blue);}
+  .share-btn.copyimg{background:var(--green);}
+  .share-btn.copytext{background:#3a4a63;}
+  .share-btn.download{background:var(--navy);}
+  .share-btn.x{background:#000;}
+  .share-btn.wa{background:#25D366; color:#062e13;}
+  .share-btn.li{background:#0A66C2;}
+  .share-btn.fb{background:#1877F2;}
+  .share-btn.copy{background:var(--green);}
+  .share-hint{font-size:12px; font-weight:600; color:var(--ink-soft); margin-top:14px; line-height:1.5; text-align:center;}
+  .share-toast{position:absolute; left:50%; bottom:14px; transform:translateX(-50%) translateY(8px);
+    background:var(--navy); color:#fff; font-weight:800; font-size:13px; padding:9px 18px; border-radius:999px;
+    opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; white-space:nowrap;}
+  .share-toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  @media(max-width:480px){
+    .share-modal{padding:22px 16px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<svg class="shape shape-1" aria-hidden="true" viewBox="0 0 1130 1250"><polygon points="1129.02 0 334.93 0 329.6 0 .21 334.31 .98 702.28 329.27 702.28 .98 1035.74 .98 1250 795.07 1250 800.4 1250 1129.49 915.69 1129.72 547.72 800.73 547.72 1129.02 214.26 1129.02 0"/></svg>
+<svg class="shape shape-2" aria-hidden="true" viewBox="0 0 2270 936.08"><polygon points="476.23 -.17 0 476.76 0 936.25 455.7 936.02 881.53 508.64 881.53 936.25 1337.22 936.02 2270 -.17 476.23 -.17"/></svg>
+
+<div class="wordmark">
+  <small id="heroTagline"></small>
+</div>
+
+<!-- SLIDE 0 · HERO -->
+<section class="slide active" id="slide-0" aria-label="Welcome">
+  <div class="hero">
+    <h1 id="heroTitle"></h1>
+    <p class="standfirst" id="heroStandfirst"></p>
+    <button class="btn" id="startBtn" data-go="1"></button>
+    <p class="key-hint" id="keyHint"></p>
+  </div>
+</section>
+
+<!-- SLIDE 1 · THE BUDGET -->
+<section class="slide" id="slide-1" aria-label="Your Budget">
+  <p class="step-label" id="stepLabel1"></p>
+  <div class="card">
+    <div class="controls-bar">
+      <div class="controls">
+        <div class="control">
+          <div class="ctl-head">
+            <label for="threshold" id="lblThreshold"></label>
+            <span class="ctl-value"><span class="cur">£</span><input type="number" id="threshold" min="15000" max="70000" step="100" value="29385" inputmode="numeric"></span>
+          </div>
+          <div class="slider-wrap">
+            <input type="range" id="thresholdSlider" min="20000" max="70000" step="100" value="29385" aria-label="Threshold slider">
+            <span class="slider-marker" id="thresholdMarker" data-label="Current" aria-hidden="true"></span>
+          </div>
+          <p class="ctl-note" id="noteThreshold"></p>
+        </div>
+        <div class="control">
+          <div class="ctl-head">
+            <label for="term" id="lblTerm"></label>
+            <span class="ctl-value"><input type="number" id="term" min="30" max="40" step="1" value="30" inputmode="numeric" style="width:52px"><span class="unit">yrs</span></span>
+          </div>
+          <div class="slider-wrap">
+            <input type="range" id="termSlider" min="30" max="40" step="1" value="30" aria-label="Term slider">
+            <span class="slider-marker" id="termMarker" data-label="Current" aria-hidden="true"></span>
+          </div>
+          <p class="ctl-note" id="noteTerm"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-label" id="chartAPanelLabel"></p>
+      <h2 id="chartAHeading"></h2>
+      <p class="lede" id="chartALede"></p>
+      <div class="chart-wrap" id="chartAWrap" role="img" aria-label="Bar chart of annual repayment per graduate by earnings percentile band"></div>
+      <div class="legend"><span><i style="background:var(--bright-blue)"></i><span id="legendA"></span></span></div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-label" id="chartBPanelLabel"></p>
+      <h2 id="chartBHeading"></h2>
+      <p class="lede" id="chartBLede"></p>
+      <div class="chart-wrap" id="chartBWrap" role="img" aria-label="Bar chart of annual saving or extra cost per graduate compared with current rules"></div>
+      <div class="legend">
+        <span><i style="background:var(--green)"></i><span id="legendBPos"></span></span>
+        <span><i style="background:var(--orange)"></i><span id="legendBNeg"></span></span>
+      </div>
+      <p class="chart-caption" id="chartBCaption"></p>
+    </div>
+  </div>
+  <div class="navrow">
+    <button class="btn secondary" id="navBack1" data-go="0" aria-keyshortcuts="ArrowLeft"></button>
+    <div class="dots" aria-hidden="true"></div>
+    <button class="btn blue" id="navNext1" data-go="2" aria-keyshortcuts="ArrowRight"></button>
+  </div>
+</section>
+
+<!-- SLIDE 2 · VERDICT -->
+<section class="slide" id="slide-2" aria-label="The verdict">
+  <p class="step-label" id="stepLabel2"></p>
+  <div class="card">
+    <div class="ledger-rule" aria-hidden="true"></div>
+    <div class="panel verdict-panel" aria-live="polite">
+      <div class="stamp" id="stamp"></div>
+      <p class="verdict-sub" id="verdictSub"></p>
+      <p class="neutral-hint" id="neutralHint"></p>
+    </div>
+    <div class="share-cta">
+      <h3 id="shareCtaHeading"></h3>
+      <p id="shareCtaSub"></p>
+      <button class="btn share-open-btn" id="shareOpenBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+        <span id="shareOpenLabel"></span>
+      </button>
+    </div>
+    <div class="panel">
+      <p class="panel-label" id="treasuryPanelLabel"></p>
+      <h2 id="treasuryHeading"></h2>
+      <div class="big-number cost" id="treasuryCost">£0</div>
+      <div class="sub-number" id="treasurySub"></div>
+    </div>
+    <div class="panel">
+      <p class="panel-label" id="sacrificePanelLabel"></p>
+      <p class="lede" id="sacrificeIntro"></p>
+      <ul class="equiv-list" id="treasuryEquivs"></ul>
+    </div>
+  </div>
+  <div class="navrow">
+    <button class="btn secondary" id="navBack2" data-go="1" aria-keyshortcuts="ArrowLeft"></button>
+    <div class="dots" aria-hidden="true"></div>
+    <button class="btn blue" id="navNext2" data-go="3" aria-keyshortcuts="ArrowRight"></button>
+  </div>
+</section>
+
+<!-- SLIDE 3 · THE GGF FIX -->
+<section class="slide" id="slide-3" aria-label="The Graduate Guarantee">
+  <p class="step-label" id="stepLabel3"></p>
+  <div class="card">
+    <div class="ledger-rule" aria-hidden="true"></div>
+    <div class="panel">
+      <p class="panel-label" id="propPanelLabel"></p>
+      <h2 id="propHeading"></h2>
+      <p class="lede" id="propLede"></p>
+      <div class="proposal-input">
+        <div class="ctl-head">
+          <label for="salary" id="lblSalary"></label>
+          <span class="ctl-value"><span class="cur">£</span><input type="number" id="salary" min="0" max="250000" step="500" value="36000" inputmode="numeric"></span>
+        </div>
+        <input type="range" id="salarySlider" min="20000" max="120000" step="500" value="36000" aria-label="Salary slider">
+        <p class="ctl-note" id="noteSalary"></p>
+      </div>
+    </div>
+    <div class="panel">
+      <h2 style="font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;" id="savingHeading"></h2>
+      <div class="fig-row">
+        <div class="fig"><span class="k" id="figNowK"></span><span class="v" id="figNow">£0</span><span class="u" id="figNowU"></span></div>
+        <div class="fig"><span class="k" id="figPlanK"></span><span class="v" id="figPlan">£0</span><span class="u" id="figPlanU"></span></div>
+        <div class="fig save"><span class="k" id="figSaveK"></span><span class="v" id="figSave">£0</span><span class="u" id="figSaveU"></span></div>
+      </div>
+      <div class="sub-number" id="yourMonthly"></div>
+      <div class="plan-treasury">
+        <p class="panel-label" id="planTreasuryLabel"></p>
+        <div class="pt-fig" id="planTreasuryFig"></div>
+        <div class="sub-number" id="planTreasurySub"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <p class="panel-label" id="financingPanelLabel"></p>
+      <p class="lede" id="financingBody"></p>
+    </div>
+    <div class="panel">
+      <p class="panel-label" id="spoilsPanelLabel"></p>
+      <p class="lede" id="spoilsIntro"></p>
+      <ul class="equiv-list you" id="yourEquivs"></ul>
+      <details class="method">
+        <summary id="methodSummary"></summary>
+        <p id="methodP1"></p>
+        <p id="methodP2"></p>
+      </details>
+    </div>
+  </div>
+  <div class="navrow">
+    <button class="btn secondary" id="navBack3" data-go="2" aria-keyshortcuts="ArrowLeft"></button>
+    <div class="dots" aria-hidden="true"></div>
+    <a class="btn" id="navPlay" target="_blank" rel="noopener"></a>
+  </div>
+</section>
+
+<!-- SHARE MODAL -->
+<div class="share-overlay" id="shareOverlay" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle" hidden>
+  <div class="share-modal">
+    <button class="share-close" id="shareClose" type="button" aria-label="Close">&times;</button>
+    <h3 id="shareModalTitle"></h3>
+    <p class="share-lede" id="shareModalLede"></p>
+    <div class="share-preview">
+      <canvas id="shareCanvas" width="1080" height="1080" role="img"></canvas>
+      <div class="share-toast" id="shareToast"></div>
+    </div>
+    <div class="share-actions">
+      <button class="share-btn copyimg wide" id="shareCopyImg" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span id="shareCopyImgLabel"></span>
+      </button>
+      <button class="share-btn copytext" id="shareCopy" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+        <span id="shareCopyLabel"></span>
+      </button>
+      <button class="share-btn download" id="shareDownload" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg>
+        <span id="shareDownloadLabel"></span>
+      </button>
+    </div>
+    <p class="share-hint" id="shareHint"></p>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   THE THRESHOLD GAME - ALL EDITABLE TEXT  (inlined; single-file build)
+   Good Growth Foundation
+   =====================================================================
+   1. Edit any text between the "double quotes".
+   2. Keep the quotes, the commas at line ends, and the {TOKENS} -
+      the game fills tokens with live numbers (e.g. {MONTHLY} -> "£32").
+   3. Apostrophes are fine inside double quotes.
+   4. Strings marked "HTML allowed" can use <b>bold</b> and <em>italics</em>.
+   5. This block lives inside this single HTML file. To change wording, edit it
+      here and re-upload the single file. No separate JS file is needed.
+   ===================================================================== */
+
+window.GAME_TEXT = {
+
+  /* ---------------- OPENING SCREEN ---------------- */
+  hero: {
+    tagline: "The Threshold Game",
+    title: "Could <em>you</em> fix student loans?",          // HTML allowed
+    standfirst: "You're the Chancellor for one Budget. Raise the repayment threshold to give graduates relief. Too timid and nothing changes. Too generous and the bond market comes for you. Find the sweet spot.",
+    startButton: "Play the threshold game",
+    keyHint: "No mouse needed: press <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to move between pages, <kbd>Tab</kbd> to move between controls, and <kbd>Enter</kbd> or <kbd>Space</kbd> to choose."
+  },
+
+  /* ---------------- THE TWO SLIDERS ---------------- */
+  controls: {
+    thresholdLabel: "Repayment threshold",
+    thresholdNote: "Graduates repay 9% of income above this line. Currently £29,385.",
+    termLabel: "Repayment term",
+    termNote: "Years before the loan is written off. Currently 30. Extending it claws money back later in graduates' careers."
+  },
+
+  /* ---------------- STEP LABELS ---------------- */
+  steps: {
+    budget: "Step 1 of 3 \u00b7 The Budget",
+    verdict: "Step 2 of 3 \u00b7 The Verdict",
+    fix: "Step 3 of 3 \u00b7 The Graduate Guarantee"
+  },
+
+  /* ---------------- CHART 1 - ANNUAL REPAYMENTS ---------------- */
+  chartA: {
+    panelLabel: "Annual repayments",
+    heading: "What each graduate pays under your Budget",
+    lede: "Every bar is a slice of the graduate earnings distribution, lowest percentiles on the left, highest on the right. The bar shows the annual repayment at your threshold. The term doesn't change the annual bill; it changes how many years it lasts.",
+    legendBar: "Annual repayment under your Budget",
+    axisCaption: "Graduate earnings percentile bands"
+  },
+
+  /* ---------------- CHART 2 - SAVINGS VS TODAY ---------------- */
+  chartB: {
+    panelLabel: "Annual savings vs today",
+    heading: "Who's better off than under current rules",
+    lede: "The same distribution, showing the change in each graduate's annual bill compared with today's rules (£29,385 threshold). Bars above the line are savings; bars below mean they pay more each year.",
+    legendPos: "Saves money vs today",
+    legendNeg: "Pays more vs today",
+    captionBetter: "Raising the threshold trims every repayer's bill by the same flat amount, and anyone earning between the old line and yours stops repaying entirely. Remember: a longer term doesn't show here, but it does claw money back over a lifetime.",
+    captionWorse: "You've pulled the threshold below today's £29,385, so every band repays more each year, including people who currently repay nothing at all.",
+    captionMixed: "Your Budget cuts bills for some graduates and raises them for others. Check who's above and who's below the line before you call it progress.",
+    captionSame: "Annual repayments are identical to today's rules. Technically a Budget. Spiritually a holding statement. Try moving the sliders to see what changes."
+  },
+
+  /* ---------------- OUTPUT 3 - COST TO THE TREASURY ---------------- */
+  treasury: {
+    panelLabel: "The bill",
+    heading: "Cost to the Treasury (per graduating cohort)",
+    subCost: "in lifetime repayments forgone from the 2022/23 graduate cohort alone",
+    subGain: "in extra lifetime repayments squeezed out of the 2022/23 graduate cohort alone",
+    subNeutral: "the Treasury's lifetime take from the 2022/23 cohort is broadly unchanged"
+  },
+
+  /* ------------------------------------------------------------------
+     THE VERDICT STAMP - when each one fires (single-cohort cost):
+       graduateGuarantee - threshold £33,300 to £33,700 with a term of 30
+                        to 36yr (the GGF policy, financed up to cash-
+                        neutral). GREEN, priority - keeps the badge when
+                        financed via the term lever
+       econCrashed    - costs £5bn or more
+       marketsRattled - costs £2.5bn to £5bn
+       obrLetter      - costs £950m to £2.5bn (folds in thresholds just
+                        above the policy zone, ~£33.8k to £34k at 30yr)
+       sweetSpot      - within plus or minus £250m AND threshold raised
+                        to £33k+ (the GREEN ending, financed - for
+                        thresholds outside the policy zone)
+       notBadNotGood  - threshold £31k to £33.3k: real relief, but short
+                        of the full Graduate Guarantee
+       tinkering      - threshold below £31k: barely moved
+       nothingChanges - dials untouched
+       balanceCheck   - threshold raised £31k+ but the term extended so far
+                        it's a net Treasury GAIN (over-extension)
+       nusWar         - GAIN from a flat/lowered threshold, £250m to £1bn
+       gradsMarch     - harsher, gains £1bn to £2bn
+       collapse       - harsher, gains £2bn or more
+  ------------------------------------------------------------------ */
+  verdict: {
+    awaiting: "Awaiting Budget",
+    econCrashed: {
+      title: "Economy crashed",
+      sub: "Gilt yields are vertical, the pound has opinions, and a junior official has been sent to find the IMF's phone number. No repayment term in existence recovers a hole this size."
+    },
+    marketsRattled: {
+      title: "Markets rattled",
+      sub: "Bond traders are using words that can't be printed in Hansard. Graduates love you; the people who lend the government money do not. This is beyond what the term lever can absorb."
+    },
+    obrLetter: {
+      title: "The sums don't add up",
+      sub: "Generous, far too generous. Run every term extension up to 40 years and not one of them stretches far enough to cover a giveaway this size. Dial the threshold back."
+    },
+    graduateGuarantee: {
+      title: "Spot on",
+      sub: "You've landed on the Good Growth Foundation's Graduate Guarantee, almost to the pound: raising the threshold to £33,542 restores its 2018 real value and hands every repaying graduate around £374 a year (£31 a month), with the biggest proportional gains for lower and middle earners. Cost: about £949m for this cohort, met from capital underspends or made cash-neutral by a six-year term extension. Bring the spreadsheet."
+    },
+    sweetSpot: {
+      title: "The sweet spot",
+      sub: "Now this is Chancellor material. Graduates feel real relief every month, and the books balance through a quiet long-term adjustment most voters will never feel. The OBR nods. The focus groups purr. Somewhere, a special adviser weeps with joy."
+    },
+    tinkering: {
+      title: "Tinkering at the edges",
+      sub: "A change so small most graduates won't spot it in their payslip. The Treasury barely blinks, the headlines write themselves ('Chancellor does almost nothing'), and the problem you set out to fix is still there."
+    },
+    notBadNotGood: {
+      title: "Getting warmer",
+      sub: "You're heading the right way: lower and middle earners are starting to feel real relief in their payslips. But you've stopped short of the full Graduate Guarantee. Nudge the threshold up toward £33,542 to restore its 2018 value in full and land the complete policy."
+    },
+    nothingChanges: {
+      title: "Nothing changes",
+      sub: "You had one Budget and you left the dials where you found them. Nine million graduates keep paying exactly what they pay now. Bold strategy: let's see if the status quo fixes itself."
+    },
+    balanceCheck: {
+      title: "Did you get the balance right?",
+      sub: "Graduates are better off month to month: you've lifted the threshold, so real relief is flowing into payslips now. But you've stretched the repayment term so far that the Treasury actually comes out ahead overall, which means graduates clear their loans years later than they would today. The NUS (the National Union of Students) is torn: it welcomes the immediate relief, but is wary of a lengthy term extension that leaves many people still repaying well into their forties and fifties. A shorter extension, or leaning on capital budget underspends instead, would keep the monthly gains without stretching the tail so far. It's a judgement call, and one worth getting right."
+    },
+    nusWar: {
+      title: "NUS declares war",
+      sub: "You've made student loans worse: extra years of repayments with nothing given back. The NUS (the National Union of Students) is on the warpath: there are petitions, there are placards, and someone has made a very unflattering meme of your fiscal stance."
+    },
+    gradsMarch: {
+      title: "Graduates march on Westminster",
+      sub: "You've turned the loan book into a profit centre on the backs of people who can't afford a house deposit. The youth vote has left the building, permanently."
+    },
+    collapse: {
+      title: "Government collapses",
+      sub: "Billions extracted from a single graduating generation. The backbenches are in open revolt, three ministers have resigned by lunchtime, and the economy you 'protected' no longer has anyone to run it. Bad ending, just a different one."
+    }
+  },
+
+  /* ---------------- CHEAT SHEET (under the stamp) ----------------
+     Tokens: {YEARS} {EXTENSION}. HTML allowed: <b>...</b>           */
+  hints: {
+    canBalance: "Cheat sheet: this gap can be funded. Like the Good Growth Foundation's plan, you could meet it from likely capital budget underspends, or make it cash-neutral by extending the repayment term to <b>{YEARS} years</b>, which claws the money back from later, higher-earning years. Go back and pull the lever.",
+    structural: "Cheat sheet: at this threshold, no term up to 40 years balances the books on its own. A giveaway this size would need to lean entirely on capital budget underspends, with nothing recovered from a term extension. This one's structural.",
+    balanced: "You balanced it with a <b>{EXTENSION}-year</b> term extension: relief now, repayments recovered later, exactly as the Good Growth Foundation proposes. The cost could also be met from capital budget underspends in-year."
+  },
+
+  /* ---------------- THE SACRIFICE (verdict page) ---------------- */
+  sacrifice: {
+    panelLabel: "The sacrifice",
+    introCost: "This costs the exchequer the equivalent of:",
+    introGain: "Across one graduating cohort, your Budget squeezes extra out of graduates. In exchequer terms, that's enough to fund:",
+    introNeutral: "Roughly nothing: the lifetime cash take from this cohort is broadly unchanged.",
+    fallback: "Not even a pothole. Carry on.",
+    // Every figure below is from an official or independent public source
+    // (see methodology note). Costs are per single unit, per year where
+    // the unit is a salary or a meal.
+    items: [
+      { cost: 70,            label: "potholes filled", one: "pothole filled", icon: "pothole" },
+      { cost: 490,           label: "children given free school meals for a year", one: "child given free school meals for a year", icon: "meals" },
+      { cost: 32073,         label: "newly qualified nurses paid for a year", one: "newly qualified nurse paid for a year", icon: "nurse" },
+      { cost: 32916,         label: "newly qualified teachers paid for a year", one: "newly qualified teacher paid for a year", icon: "teacher" },
+      { cost: 1000000000,    label: "new NHS hospitals", one: "new NHS hospital", icon: "hospital" }
+    ]
+  },
+
+  /* ---------------- FINAL PAGE - THE GRADUATE GUARANTEE ----------------
+     Tokens: {MONTHLY}                                            */
+  proposal: {
+    panelLabel: "The Graduate Guarantee",
+    heading: "What would the Graduate Guarantee give you?",
+    lede: "We've modelled the Graduate Guarantee: raising the repayment threshold from today's £29,385 to £33,542, restoring its 2018 real value, with a legislative lock pegging it to inflation. Enter your salary to see what it would put back in your pocket each year.",
+    salaryLabel: "Your salary",
+    salaryNote: "What you earn before tax.",
+    savingHeading: "What the plan does to your repayments",
+    payNowLabel: "You pay now",
+    payPlanLabel: "Under the plan you pay",
+    saveLabel: "You save",
+    perYearNote: "a year",
+    treasuryHeading: "What the Graduate Guarantee does to the public finances",
+    treasuryNeutral: "Broadly neutral over the lifetime of these loans, with the modest in-year cost absorbed through capital budget underspends. Relief the public finances can carry.",
+    treasuryCost: "in lifetime relief delivered to the 2022/23 graduate cohort",
+    treasuryGain: "recovered from the 2022/23 graduate cohort over the loan lifetime",
+    financingPanelLabel: "How the Graduate Guarantee is paid for",
+    financingBody: "Raising the threshold to £33,542 costs approximately £949 million for the 2022/23 graduate cohort. Across all Plan 2 cohorts, the full cost is estimated at up to £10 billion, arising primarily as a one-off capital budget cost in the year the change takes place, with limited impact on the Government\u2019s fiscal stability rule. The reform can be made cash-neutral for the Treasury by extending the loan repayment term by up to 6 years (from 30 to 36 years). Each additional year recovers around £176 million from the cohort, shifting repayments to later in graduates\u2019 careers when earnings are higher. At 36 years the Treasury position is broadly neutral. The change could alternatively be funded through capital budget underspends in the current year.",
+    monthlyPositive: "{MONTHLY} a month back in your pay",
+    belowThreshold: "You earn below the repayment threshold, so you don't repay today, and you still won't. Your saving kicks in as your salary grows.",
+    noChange: "No change at this salary."
+  },
+
+  /* ---------------- WHAT YOU COULD BUY (final page) ---------------- */
+  spoils: {
+    panelLabel: "What you could buy",
+    introPositive: "Your annual saving, converted into the things that actually matter:",
+    fallbackPositive: "Not enough for a sausage roll yet, but it's coming.",
+    items: [
+      { cost: 1.35,  label: "Greggs sausage rolls", one: "Greggs sausage roll", icon: "sausageRoll" },
+      { cost: 3.50,  label: "flat whites", one: "flat white", icon: "coffee" },
+      { cost: 5.50,  label: "pints (average UK price)", one: "pint (average UK price)", icon: "pint" },
+      { cost: 40,    label: "months of gym membership", one: "month of gym membership", icon: "gym" },
+      { cost: 65,    label: "big weekly food shops", one: "big weekly food shop", icon: "shop" }
+    ]
+  },
+
+  /* ---------------- METHODOLOGY (final page, collapsed) ---------------- */
+  smallPrint: {
+    methodSummary: "Methodology & health warnings",
+    methodP1: "This is an illustrative, directional model: a game, not an official fiscal costing. The graduate earnings distribution is split into twelve bands from ONS ASHE 2025 full-time earnings percentiles, scaled by a 1.125 graduate premium. Repayments are 9% of income above the chosen threshold, per year, for the chosen term, weighted across bands and multiplied by the 2022/23 cohort of 108,340 borrowers (DfE/LEO). The baseline calibrates within 2.8% of the IFS benchmark for average lifetime repayments.",
+    methodP2: "Caveats: for the cohort figures, earnings are held flat (no career progression), loan balances, interest and write-offs aren't simulated, behaviour doesn't change, and figures are undiscounted cash for a single cohort, so cash neutrality is not fiscal neutrality, since repayments pushed into later years are worth less in today's money. The cost equivalents in the 'what you could buy' and 'sacrifice' lists use published per-unit figures from official and independent sources: potholes at roughly £70 each (Department for Transport / gov.uk, from the £500m-for-7-million-potholes funding round, a figure also used by Full Fact); free school meals at £490 per child per year (Institute for Fiscal Studies, derived from the gov.uk grant rate of £490.20, and also used by the House of Commons Library); a newly qualified nurse's starting salary of £32,073 (NHS Employers, Agenda for Change Band 5, 2026/27; £31,049 in 2025/26); a newly qualified teacher's starting salary of £32,916 outside London (the September 2025 M1 point of the statutory School Teachers' Pay and Conditions Document, via DfE / gov.uk); and around £1bn for a new NHS hospital (House of Commons Library, which puts replacement hospitals at 'on average over £1 billion per hospital', consistent with the New Hospital Programme's 46 hospitals for £60bn). They are starting salaries and indicative ballparks for scale, not full employer or project costs. Plan 2 rules as at April 2026: threshold £29,385, rate 9%, 30-year write-off. The Graduate Guarantee threshold of £33,542 restores the real value of the £25,000 threshold set in 2018."
+  },
+
+  /* ---------------- REPORT LINK (bottom-nav CTA) ---------------- */
+  email: {
+    url: "https://www.goodgrowthfoundation.co.uk/the-university-challenge"
+  },
+
+  /* ---------------- SHARE YOUR VERDICT ----------------
+     shareUrl  = the page people are sent to (the live game).
+     caption   = the pre-filled post text. Tokens: {VERDICT} {URL}.
+     hashtags  = comma-separated, no # (used by X).                */
+  share: {
+    ctaHeading: "Think you did better?",
+    ctaSub: "Share your verdict and challenge your friends to balance the books.",
+    ctaButton: "Share your verdict",
+    modalTitle: "Share your verdict",
+    modalLede: "",
+    copyImgButton: "Copy verdict + link",
+    downloadButton: "Download verdict",
+    copyButton: "Copy text + link",
+    copiedToast: "Text + link copied",
+    savedToast: "Verdict saved",
+    hint: "“Copy verdict + link” copies the verdict card so you can paste it straight into a post; “Copy text + link” copies just the words and link; or download the verdict to attach it yourself.",
+    shareUrl: "https://www.goodgrowthfoundation.co.uk/student-loan-calculator",
+    caption: "My verdict as Chancellor: “{VERDICT}”. Could you fix student loans? Play The Threshold Game: {URL}",
+    hashtags: "TheThresholdGame,StudentLoans",
+    cardTagline: "Can You Fix Student Loans?",
+    cardFooterCta: "Play it yourself · could you fix student loans?",
+    cardBrand: "GOOD GROWTH FOUNDATION",
+    // The Good Growth Foundation logo, drawn at the top of the share card.
+    // logoDataUri takes priority (fully self-contained; survives download/
+    // share). If it's empty, logoUrl is used as a fallback (must allow
+    // cross-origin, or the downloaded image may omit it). If both are empty
+    // the card falls back to the styled "GOOD GROWTH FOUNDATION" text.
+    logoDataUri: "data:image/png;base64,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",
+    logoUrl: ""
+  },
+
+  /* ---------------- NAVIGATION BUTTONS ---------------- */
+  nav: {
+    back: "Back",
+    toVerdict: "Face the verdict",
+    backToBudget: "Back to the Budget",
+    toProposal: "What would the Graduate Guarantee save you?",
+    readReport: "Read our report"
+  }
+};
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // ===================================================================
+  // CONFIG
+  // PROPOSAL_THRESHOLD: the Graduate Guarantee threshold (£33,542,
+  //   restoring the 2018 real value of the £25,000 threshold) used on
+  //   the final page.
+  // ===================================================================
+  var PROPOSAL_THRESHOLD = 33542;
+
+  // Fallback: if game-text.js fails to load, show a clear warning rather
+  // than a silently blank game.
+  if (!window.GAME_TEXT){
+    document.body.innerHTML = '<div style="max-width:560px;margin:20vh auto;padding:32px;background:#fff;border-radius:12px;font-family:\'Manrope\',sans-serif;color:#112743;"><h2>Text file missing</h2><p>The game could not load <b>game-text.js</b>. Check the file exists in the repository with exactly that name (lowercase, hyphen) and reload.</p></div>';
+    return;
+  }
+  var T = window.GAME_TEXT;
+
+  // ===== Model =====
+  var BANDS = [
+    [26988.75,0.10],[28960.875,0.10],[31926.375,0.05],[33861.375,0.05],
+    [36964.125,0.10],[41522.625,0.10],[46823.625,0.10],[53053.875,0.10],
+    [58569.75,0.05],[63614.25,0.05],[76492.125,0.10],[99508.5,0.10]
+  ];
+  var RATE = 0.09, BASE_THRESHOLD = 29385, BASE_TERM = 30, COHORT = 108340;
+
+  function annual(mid, thr){ return Math.max(0, mid-thr)*RATE; }
+  function weightedLifetime(thr, term){
+    var s=0;
+    for (var i=0;i<BANDS.length;i++) s += BANDS[i][1]*annual(BANDS[i][0],thr)*term;
+    return s;
+  }
+  var BASELINE = weightedLifetime(BASE_THRESHOLD, BASE_TERM);
+  function cohortEffect(thr, term){ return (weightedLifetime(thr,term)-BASELINE)*COHORT; }
+  function cashNeutralTerm(thr){
+    for (var y=30;y<=40;y++) if (cohortEffect(thr,y) >= 0) return y;
+    return null;
+  }
+
+  // The GGF plan = raised threshold + a term extension that keeps the cohort
+  // broadly cash-neutral. PLAN_TERM is that neutral term (backend only, never
+  // shown to the user). PLAN_EFFECT is the plan's net lifetime effect on the
+  // Treasury for the 2022/23 cohort (negative = relief delivered to graduates,
+  // positive = small net gain to the Treasury).
+  var PLAN_TERM = cashNeutralTerm(PROPOSAL_THRESHOLD) || BASE_TERM;
+  var PLAN_EFFECT = cohortEffect(PROPOSAL_THRESHOLD, PLAN_TERM);
+
+  // ===== Formatting =====
+  var gbp0 = new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0});
+  var num0 = new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
+  function fmtBig(x){
+    var a=Math.abs(x);
+    if (a>=1e9) return '\u00a3'+(a/1e9).toFixed(2).replace(/\.?0+$/,'')+'bn';
+    if (a>=1e6) return '\u00a3'+Math.round(a/1e6)+'m';
+    return gbp0.format(a);
+  }
+  function fmt(s, map){
+    return s.replace(/\{(\w+)\}/g, function(m,k){ return (k in map) ? map[k] : m; });
+  }
+
+  // ===== Verdict =====
+  // Cohort effect ranges roughly -£5.6bn (most generous, threshold £70k)
+  // to +£5.6bn (harshest) across the slider extremes. The Graduate
+  // Guarantee (£33,542 + a term extension to ~36yr) lands in the sweet spot.
+  // Cost bands are recalibrated to that range so the gradations are
+  // meaningful: "economy crashed" now sits at the genuinely reckless
+  // end (>= £5bn cost for a single cohort).
+  function verdict(effect, thr, term){
+    var cost = -effect, V = T.verdict;
+    // Spot on: the Graduate Guarantee policy zone (£33,300-£33,700),
+    // financed anywhere from no extension up to the cash-neutral six-year
+    // extension (terms 30-36). Checked first so it beats the cost bands,
+    // and so financing the policy via the term lever KEEPS the badge
+    // rather than dropping to a lesser verdict.
+    if (thr >= 33300 && thr <= 33700 && term >= BASE_TERM && term <= 36){
+      return {v:V.graduateGuarantee, c:'green'};
+    }
+    if (cost >= 5e9) return {v:V.econCrashed, c:''};
+    if (cost >= 2.5e9) return {v:V.marketsRattled, c:''};
+    // "Sums don't add up" floor lowered to £950m so thresholds just above
+    // the policy zone (~£33.8k-£34k at 30yr, costing £984m-£1.05bn) fold in.
+    if (cost >= 9.5e8) return {v:V.obrLetter, c:'amber'};
+    // Middle zone: costs below £950m, plus near-balanced budgets and gains.
+    if (cost > -2.5e8){
+      // Sweet spot: financed to balance (within ±£250m) at a real threshold.
+      if (cost < 2.5e8 && thr >= 33000) return {v:V.sweetSpot, c:'green'};
+      // Getting warmer: a meaningful raise (£31k-£33.3k) that delivers real
+      // relief but stops short of the full Graduate Guarantee.
+      if (thr >= 31000) return {v:V.notBadNotGood, c:'amber'};
+      // Dials untouched.
+      if (thr === BASE_THRESHOLD && term === BASE_TERM) return {v:V.nothingChanges, c:'amber'};
+      // Below £31k: barely moved.
+      return {v:V.tinkering, c:'amber'};
+    }
+    var gain = -cost;
+    // Over-extension: a meaningful threshold rise (£31k+), but the term has
+    // been pushed so far the Treasury comes out ahead overall. Graduates get
+    // monthly relief now but repay for many more years - a balance question,
+    // not a giveaway. Distinct from genuinely harsher loans below.
+    if (thr >= 31000) return {v:V.balanceCheck, c:'amber'};
+    // Otherwise the gain comes from a flat or lowered threshold: graduates
+    // are squeezed, with little or no relief in return.
+    if (gain < 1e9) return {v:V.nusWar, c:''};
+    if (gain < 2e9) return {v:V.gradsMarch, c:''};
+    return {v:V.collapse, c:''};
+  }
+
+  // ===== Equivalents =====
+  // Inline SVG icons for the "What you could buy" and "The sacrifice"
+  // lists. Each uses currentColor so it inherits the list's accent
+  // colour (green for spoils, orange/green for sacrifice).
+  var ICONS = {
+    sausageRoll: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="5.5"/><path d="M6 10.5c1.2 1 2 1 3.2 0M11 9.6c1.2 1 2 1 3.2 0M16 10.5c1.2 1 2 1 3.2 0M7 13.4c1.2 1 2 1 3.2 0M12.5 13.8c1.2 1 2 1 3.2 0"/></svg>',
+    coffee: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9z"/><path d="M17 10h2.2a2.3 2.3 0 0 1 0 4.6H17"/><path d="M8 3c-.6.8-.6 1.5 0 2.3M12 3c-.6.8-.6 1.5 0 2.3"/></svg>',
+    pint: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10l-1 12H8L7 8z"/><path d="M7 8c-.5-2.6 1.2-4 2.8-3.4C10.2 3 11.6 3 12.4 4c1.4-.6 3 .2 3 1.7 1.5.1 2.2 1.4 1.3 2.3"/><path d="M8.5 12h7"/></svg>',
+    gym: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10"/></svg>',
+    shop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 11a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+    pothole: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path d="M8 18c0-3 1.2-5 4-5s4 2 4 5"/><path d="M3 14h3M18 14h3"/></svg>',
+    meals: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="6"/><path d="M5 6h14"/><path d="M9 3v3M15 3v3"/></svg>',
+    nurse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/><path d="M12 6.2v3.6M10.2 8h3.6"/></svg>',
+    teacher: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M7 9v4c0 1.5 2.2 2.6 5 2.6s5-1.1 5-2.6V9"/><path d="M21 7v5"/></svg>',
+    hospital: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="17" rx="1.5"/><path d="M12 8v6M9 11h6"/><path d="M4 21h16"/></svg>'
+  };
+  function renderEquivs(el, amount, items, fallback, cls){
+    el.className='equiv-list'+(cls?' '+cls:'');
+    el.innerHTML='';
+    var picks=[];
+    for (var i=items.length-1;i>=0 && picks.length<3;i--){
+      var n=amount/items[i].cost;
+      if (n>=1) picks.push({n:n,label:items[i].label,one:items[i].one,icon:items[i].icon});
+    }
+    if (!picks.length){
+      var liF=document.createElement('li');
+      var dash=document.createElement('span'); dash.className='equiv-count'; dash.textContent='\u00b7';
+      var sp=document.createElement('span'); sp.textContent=fallback;
+      liF.appendChild(dash); liF.appendChild(sp); el.appendChild(liF);
+      return;
+    }
+    picks.sort(function(a,b){return a.n-b.n;});
+    picks.forEach(function(p){
+      var li=document.createElement('li');
+      if (p.icon && ICONS[p.icon]){
+        var ic=document.createElement('span'); ic.className='equiv-icon';
+        ic.innerHTML=ICONS[p.icon]; li.appendChild(ic);
+      }
+      var c=document.createElement('span'); c.className='equiv-count'; c.textContent=num0.format(Math.floor(p.n));
+      var l=document.createElement('span'); l.textContent=(Math.floor(p.n)===1 && p.one) ? p.one : p.label;
+      li.appendChild(c); li.appendChild(l); el.appendChild(li);
+    });
+  }
+
+  // ===== Charts =====
+  function bandLabel(m){ return '\u00a3'+Math.round(m/1000)+'k'; }
+
+  function renderChartA(thr){
+    var vals=BANDS.map(function(b){ return annual(b[0],thr); });
+    var W=760, H=300, mL=46, mR=12, mT=30, mB=44;
+    var iw=W-mL-mR, ih=H-mT-mB;
+    var maxV=Math.max.apply(null, vals.concat([100]));
+    function y(v){ return mT + (maxV-v)/maxV*ih; }
+    var zeroY=y(0), n=BANDS.length, slot=iw/n, bw=Math.min(40, slot*0.62);
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">';
+    svg+='<line x1="'+mL+'" y1="'+zeroY+'" x2="'+(W-mR)+'" y2="'+zeroY+'" stroke="#112743" stroke-width="1.5"/>';
+    svg+='<text x="'+(mL-8)+'" y="'+(zeroY+4)+'" text-anchor="end" font-size="11" font-weight="700" fill="#4a5c75">\u00a30</text>';
+    for (var i=0;i<n;i++){
+      var v=vals[i], x=mL+slot*i+(slot-bw)/2, barTop=y(v), barH=Math.max(zeroY-barTop,2);
+      svg+='<rect x="'+x+'" y="'+barTop+'" width="'+bw+'" height="'+barH+'" rx="4" fill="#2361B4"/>';
+      svg+='<text x="'+(x+bw/2)+'" y="'+(barTop-6)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="#112743">\u00a3'+num0.format(Math.round(v))+'</text>';
+      svg+='<text x="'+(x+bw/2)+'" y="'+(H-22)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4a5c75">'+bandLabel(BANDS[i][0])+'</text>';
+    }
+    svg+='<text x="'+(mL+iw/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="10" font-weight="600" fill="#4a5c75">'+T.chartA.axisCaption+'</text>';
+    svg+='</svg>';
+    document.getElementById('chartAWrap').innerHTML=svg;
+  }
+
+  function renderChartB(thr){
+    var vals=BANDS.map(function(b){ return annual(b[0],BASE_THRESHOLD)-annual(b[0],thr); });
+    var W=760, H=300, mL=52, mR=12, mT=30, mB=54;
+    var iw=W-mL-mR, ih=H-mT-mB;
+    var maxV=Math.max.apply(null, vals.concat([50]));
+    var minV=Math.min.apply(null, vals.concat([0]));
+    var span=(maxV-minV)||1;
+    function y(v){ return mT + (maxV-v)/span*ih; }
+    var zeroY=y(0), n=BANDS.length, slot=iw/n, bw=Math.min(40, slot*0.62);
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="Manrope, sans-serif">';
+    svg+='<line x1="'+mL+'" y1="'+zeroY+'" x2="'+(W-mR)+'" y2="'+zeroY+'" stroke="#112743" stroke-width="1.5"/>';
+    svg+='<text x="'+(mL-8)+'" y="'+(zeroY+4)+'" text-anchor="end" font-size="11" font-weight="700" fill="#4a5c75">\u00a30</text>';
+    for (var i=0;i<n;i++){
+      var v=vals[i], x=mL+slot*i+(slot-bw)/2;
+      var barTop=v>=0?y(v):zeroY;
+      var barH=Math.max(Math.abs(y(v)-zeroY),2);
+      var fill=v<0?'#EC704A':'#00A787';
+      svg+='<rect x="'+x+'" y="'+barTop+'" width="'+bw+'" height="'+barH+'" rx="4" fill="'+fill+'"/>';
+      var lblY=v>=0?barTop-6:barTop+barH+13;
+      var lbl=(v<0?'\u2212':'')+'\u00a3'+num0.format(Math.round(Math.abs(v)));
+      svg+='<text x="'+(x+bw/2)+'" y="'+lblY+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="'+(v<0?'#EC704A':'#112743')+'">'+lbl+'</text>';
+      svg+='<text x="'+(x+bw/2)+'" y="'+(H-22)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4a5c75">'+bandLabel(BANDS[i][0])+'</text>';
+    }
+    svg+='<text x="'+(mL+iw/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="10" font-weight="600" fill="#4a5c75">'+T.chartA.axisCaption+'</text>';
+    svg+='</svg>';
+    document.getElementById('chartBWrap').innerHTML=svg;
+
+    var cap=document.getElementById('chartBCaption');
+    var hasPos=vals.some(function(v){return v>0.5;}), hasNeg=vals.some(function(v){return v<-0.5;});
+    if (hasPos && hasNeg) cap.textContent=T.chartB.captionMixed;
+    else if (hasPos) cap.textContent=T.chartB.captionBetter;
+    else if (hasNeg) cap.textContent=T.chartB.captionWorse;
+    else cap.textContent=T.chartB.captionSame;
+  }
+
+  // ===== State & DOM =====
+  var $=function(id){return document.getElementById(id);};
+  var threshold=$('threshold'), thresholdSlider=$('thresholdSlider');
+  var term=$('term'), termSlider=$('termSlider');
+  var salary=$('salary'), salarySlider=$('salarySlider');
+  var stamp=$('stamp'), lastVerdict='', currentVerdictTitle='';
+
+  function vals(){
+    return {
+      thr: Math.max(0, +threshold.value||0),
+      term: Math.min(40, Math.max(30, +term.value||30)),
+      sal: Math.max(0, +salary.value||0)
+    };
+  }
+
+  function update(){
+    var v=vals();
+    renderChartA(v.thr);
+    renderChartB(v.thr);
+
+    // Treasury bill
+    var effect=cohortEffect(v.thr, v.term);
+    var tc=$('treasuryCost');
+    tc.textContent=(effect<0?'\u2212':'+')+fmtBig(effect);
+    tc.className='big-number '+(effect<0?'cost':'gain');
+    $('treasurySub').textContent = effect<-2.5e8 ? T.treasury.subCost
+      : effect>2.5e8 ? T.treasury.subGain : T.treasury.subNeutral;
+
+    // Verdict
+    var vd=verdict(effect, v.thr, v.term);
+    currentVerdictTitle=vd.v.title;
+    if (vd.v.title!==lastVerdict){
+      lastVerdict=vd.v.title;
+      stamp.textContent=vd.v.title;
+      stamp.className='stamp '+vd.c+' slam';
+      void stamp.offsetWidth;
+    }
+    $('verdictSub').textContent=vd.v.sub;
+
+    // Cheat sheet
+    var hint=$('neutralHint');
+    if (effect < -2.5e8){
+      var nt=cashNeutralTerm(v.thr);
+      hint.innerHTML = nt ? fmt(T.hints.canBalance,{YEARS:nt}) : T.hints.structural;
+    } else if (effect>=-2.5e8 && effect<2.5e8 && v.term>30){
+      hint.innerHTML=fmt(T.hints.balanced,{EXTENSION:(v.term-30)});
+    } else {
+      hint.textContent='';
+    }
+
+    // Sacrifice
+    var intro=$('sacrificeIntro');
+    if (effect < -2.5e8){
+      intro.textContent=T.sacrifice.introCost;
+      renderEquivs($('treasuryEquivs'), Math.abs(effect), T.sacrifice.items, T.sacrifice.fallback, '');
+    } else if (effect > 2.5e8){
+      intro.textContent=T.sacrifice.introGain;
+      renderEquivs($('treasuryEquivs'), effect, T.sacrifice.items, T.sacrifice.fallback, '');
+    } else {
+      intro.textContent=T.sacrifice.introNeutral;
+      $('treasuryEquivs').innerHTML='';
+    }
+
+    // Graduate Guarantee page (fixed proposal, independent of sliders)
+    var nowRepay  = annual(v.sal, BASE_THRESHOLD);
+    var planRepay = annual(v.sal, PROPOSAL_THRESHOLD);
+    var saving = Math.max(0, nowRepay - planRepay);
+    $('figNow').textContent  = gbp0.format(Math.round(nowRepay));
+    $('figPlan').textContent = gbp0.format(Math.round(planRepay));
+    $('figSave').textContent = gbp0.format(Math.round(saving));
+    $('yourMonthly').textContent = saving>0.5
+      ? fmt(T.proposal.monthlyPositive,{MONTHLY:gbp0.format(Math.round(saving/12))})
+      : (v.sal<=BASE_THRESHOLD ? T.proposal.belowThreshold : T.proposal.noChange);
+    var spoils=$('spoilsIntro');
+    if (saving>0.5){
+      spoils.textContent=T.spoils.introPositive;
+      renderEquivs($('yourEquivs'), saving, T.spoils.items, T.spoils.fallbackPositive, 'you');
+    } else {
+      spoils.textContent='';
+      $('yourEquivs').innerHTML='';
+    }
+
+  }
+
+  function link(numEl, rangeEl){
+    rangeEl.addEventListener('input', function(){ numEl.value=rangeEl.value; update(); });
+    numEl.addEventListener('input', function(){
+      var v=+numEl.value||0;
+      rangeEl.value=Math.min(Math.max(v,+rangeEl.min),+rangeEl.max);
+      update();
+    });
+  }
+  link(threshold,thresholdSlider); link(term,termSlider); link(salary,salarySlider);
+
+  // ===== "Today" reference markers on the threshold and term sliders =====
+  // Place each marker over the point on the track where the thumb sits for
+  // the current real-world value (threshold £29,385; term 30 years). The
+  // native thumb centre travels between thumbW/2 and width-thumbW/2, so we
+  // inset by half a thumb width (~10px) at each end for an accurate line-up.
+  function placeMarker(rangeEl, markerEl, value){
+    if (!rangeEl || !markerEl) return;
+    var min=+rangeEl.min, max=+rangeEl.max, w=rangeEl.offsetWidth;
+    if (!w || max===min) return;
+    var thumb=18, usable=w-thumb;
+    var frac=(value-min)/(max-min);
+    markerEl.style.left=(thumb/2 + frac*usable)+'px';
+  }
+  function positionMarkers(){
+    placeMarker(thresholdSlider, $('thresholdMarker'), BASE_THRESHOLD); // £29,385
+    placeMarker(termSlider, $('termMarker'), BASE_TERM);               // 30 years
+  }
+  window.addEventListener('resize', positionMarkers);
+
+  // ===== Plan-level Treasury readout (final slide; constant, not slider-driven) =====
+  function renderPlanTreasury(){
+    var fig=$('planTreasuryFig'), sub=$('planTreasurySub'), e=PLAN_EFFECT;
+    if (Math.abs(e) < 2.5e8){          // within the neutral band
+      fig.textContent=''; fig.className='pt-fig';
+      sub.textContent=T.proposal.treasuryNeutral;
+    } else if (e < 0){                 // net cost = relief delivered to graduates
+      fig.textContent=fmtBig(e); fig.className='pt-fig cost';
+      sub.textContent=T.proposal.treasuryCost;
+    } else {                           // net gain to the Treasury
+      fig.textContent='+'+fmtBig(e); fig.className='pt-fig gain';
+      sub.textContent=T.proposal.treasuryGain;
+    }
+  }
+
+  // ===== Static copy =====
+  function applyStaticText(){
+    $('heroTagline').textContent=T.hero.tagline;
+    $('heroTitle').innerHTML=T.hero.title;
+    $('heroStandfirst').textContent=T.hero.standfirst;
+    $('startBtn').textContent=T.hero.startButton;
+    $('keyHint').innerHTML=T.hero.keyHint;
+    $('lblThreshold').textContent=T.controls.thresholdLabel;
+    $('noteThreshold').textContent=T.controls.thresholdNote;
+    $('lblTerm').textContent=T.controls.termLabel;
+    $('noteTerm').textContent=T.controls.termNote;
+    $('stepLabel1').textContent=T.steps.budget;
+    $('stepLabel2').textContent=T.steps.verdict;
+    $('stepLabel3').textContent=T.steps.fix;
+    $('chartAPanelLabel').textContent=T.chartA.panelLabel;
+    $('chartAHeading').textContent=T.chartA.heading;
+    $('chartALede').textContent=T.chartA.lede;
+    $('legendA').textContent=T.chartA.legendBar;
+    $('chartBPanelLabel').textContent=T.chartB.panelLabel;
+    $('chartBHeading').textContent=T.chartB.heading;
+    $('chartBLede').textContent=T.chartB.lede;
+    $('legendBPos').textContent=T.chartB.legendPos;
+    $('legendBNeg').textContent=T.chartB.legendNeg;
+    $('treasuryPanelLabel').textContent=T.treasury.panelLabel;
+    $('treasuryHeading').textContent=T.treasury.heading;
+    $('sacrificePanelLabel').textContent=T.sacrifice.panelLabel;
+    $('propPanelLabel').textContent=T.proposal.panelLabel;
+    $('propHeading').textContent=T.proposal.heading;
+    $('propLede').textContent=T.proposal.lede;
+    $('lblSalary').textContent=T.proposal.salaryLabel;
+    $('noteSalary').textContent=T.proposal.salaryNote;
+    $('savingHeading').textContent=T.proposal.savingHeading;
+    $('figNowK').textContent=T.proposal.payNowLabel;
+    $('figPlanK').textContent=T.proposal.payPlanLabel;
+    $('figSaveK').textContent=T.proposal.saveLabel;
+    $('figNowU').textContent=T.proposal.perYearNote;
+    $('figPlanU').textContent=T.proposal.perYearNote;
+    $('figSaveU').textContent=T.proposal.perYearNote;
+    $('planTreasuryLabel').textContent=T.proposal.treasuryHeading;
+    renderPlanTreasury();
+    $('financingPanelLabel').textContent=T.proposal.financingPanelLabel;
+    $('financingBody').textContent=T.proposal.financingBody;
+    $('spoilsPanelLabel').textContent=T.spoils.panelLabel;
+    $('methodSummary').textContent=T.smallPrint.methodSummary;
+    $('methodP1').textContent=T.smallPrint.methodP1;
+    $('methodP2').textContent=T.smallPrint.methodP2;
+    $('stamp').textContent=T.verdict.awaiting;
+    $('navBack1').textContent=T.nav.back;
+    $('navNext1').textContent=T.nav.toVerdict;
+    $('navBack2').textContent=T.nav.backToBudget;
+    $('navNext2').textContent=T.nav.toProposal;
+    $('navBack3').textContent=T.nav.back;
+    $('navPlay').textContent=T.nav.readReport; $('navPlay').href=T.email.url;
+  }
+
+  // ===== Slides =====
+  var slides=document.querySelectorAll('.slide');
+  var dotGroups=document.querySelectorAll('.dots');
+  dotGroups.forEach(function(g){
+    for (var i=0;i<slides.length;i++){ var d=document.createElement('i'); g.appendChild(d); }
+  });
+  function goTo(n){
+    slides.forEach(function(s,i){ s.classList.toggle('active', i===n); });
+    dotGroups.forEach(function(g){
+      Array.prototype.forEach.call(g.children, function(d,i){ d.classList.toggle('on', i===n); });
+    });
+    window.scrollTo({top:0, behavior:'auto'});
+    if (window.self !== window.top){ try { parent.postMessage({ ggfScrollTop: true }, '*'); } catch (e) {} }
+    if (n===1) positionMarkers();   // sliders now visible: line up the "Today" markers
+    if (n===2){ lastVerdict=''; update(); }
+    // Move focus to the new slide so keyboard and screen-reader users follow along.
+    var active=slides[n];
+    if (active){ active.setAttribute('tabindex','-1'); active.focus({preventScroll:true}); }
+  }
+  document.body.addEventListener('click', function(e){
+    var b=e.target.closest('[data-go]');
+    if (b) goTo(+b.getAttribute('data-go'));
+  });
+  document.addEventListener('keydown', function(e){
+    var cur=Array.prototype.findIndex.call(slides,function(s){return s.classList.contains('active');});
+    if (e.key==='ArrowRight' && cur<slides.length-1 && !e.target.matches('input')) goTo(cur+1);
+    if (e.key==='ArrowLeft' && cur>0 && !e.target.matches('input')) goTo(cur-1);
+  });
+
+  // init
+  applyStaticText();
+  update();
+})();
+</script>
+<script>
+/* =====================================================================
+   SHARE YOUR VERDICT  (self-contained; reads the live verdict from the DOM,
+   paints a branded share card on a <canvas>, and offers native share,
+   download, and one-tap posting to X / WhatsApp / LinkedIn / Facebook.)
+   ===================================================================== */
+(function(){
+  'use strict';
+  var T = window.GAME_TEXT; if(!T) return;
+  var SH = T.share || {};
+  var $ = function(id){ return document.getElementById(id); };
+
+  var overlay = $('shareOverlay');
+  var canvas  = $('shareCanvas');
+  if(!overlay || !canvas) return;
+  var ctx = canvas.getContext('2d');
+  var modal = overlay.querySelector('.share-modal');
+
+  var currentStyle = 'standard';
+  var lastBlob = null;
+  var FONTS_READY = false;
+  var enc = encodeURIComponent;
+
+  // Brand palette (mirrors the CSS :root tokens).
+  var C = { navy:'#112743', blue:'#2361B4', yellow:'#C4D54B', orange:'#EC704A',
+            paleBlue:'#99ACFF', green:'#00A787', white:'#FFFFFF' };
+
+  // Decorative polygons lifted straight from the page's background shapes.
+  var SHAPE1 = "1129.02 0 334.93 0 329.6 0 .21 334.31 .98 702.28 329.27 702.28 .98 1035.74 .98 1250 795.07 1250 800.4 1250 1129.49 915.69 1129.72 547.72 800.73 547.72 1129.02 214.26 1129.02 0";
+  var SHAPE2 = "476.23 -.17 0 476.76 0 936.25 455.7 936.02 881.53 508.64 881.53 936.25 1337.22 936.02 2270 -.17 476.23 -.17";
+
+  // ---------- static text ----------
+  function setText(id, val){ var el=$(id); if(el) el.textContent = val||''; }
+  setText('shareCtaHeading', SH.ctaHeading);
+  setText('shareCtaSub', SH.ctaSub);
+  setText('shareOpenLabel', SH.ctaButton);
+  setText('shareModalTitle', SH.modalTitle);
+  setText('shareModalLede', SH.modalLede);
+  (function(){ var le=$('shareModalLede'); if(le && !(SH.modalLede||'').trim()) le.style.display='none'; })();
+  setText('shareCopyImgLabel', SH.copyImgButton);
+  setText('shareDownloadLabel', SH.downloadButton);
+  setText('shareCopyLabel', SH.copyButton);
+  setText('shareHint', SH.hint);
+  // Card is locked to the "standard" style.
+
+  // ---------- logo ----------
+  var logoImg=null, logoReady=false;
+  (function loadLogo(){
+    var src = SH.logoDataUri || SH.logoUrl;
+    if(!src) return;
+    var img=new Image();
+    if(SH.logoUrl && !SH.logoDataUri) img.crossOrigin='anonymous';
+    img.onload=function(){ logoImg=img; logoReady=true; if(overlay.classList.contains('open')) draw(); };
+    img.onerror=function(){ logoImg=null; logoReady=false; };
+    img.src=src;
+  })();
+
+  // ---------- helpers ----------
+  function accentFor(c){ return c==='green'? C.green : c==='amber'? C.yellow : C.orange; }
+  function textOn(c){ return c==='amber'? C.navy : C.white; }
+
+  function roundRect(x,y,w,h,r){
+    r = Math.min(r, h/2, w/2);
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+  function drawPoly(str, ox, oy, s){
+    var n = str.trim().split(/\s+/).map(parseFloat);
+    ctx.beginPath();
+    for(var i=0;i<n.length;i+=2){
+      var x=ox+n[i]*s, y=oy+n[i+1]*s;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.fill();
+  }
+  function fitSingle(text, maxW, start, min, weight){
+    var s=start;
+    while(s>min){
+      ctx.font = weight+' '+s+'px Manrope, sans-serif';
+      if(ctx.measureText(text).width<=maxW) break;
+      s-=2;
+    }
+    return s;
+  }
+  function wrap(text, size, weight, maxW){
+    ctx.font = weight+' '+size+'px Manrope, sans-serif';
+    var words=text.split(' '), lines=[], line='';
+    for(var i=0;i<words.length;i++){
+      var test = line ? line+' '+words[i] : words[i];
+      if(ctx.measureText(test).width>maxW && line){ lines.push(line); line=words[i]; }
+      else line=test;
+    }
+    if(line) lines.push(line);
+    return lines;
+  }
+  function spaced(text, cx, y, size, weight, colour, spacing){
+    ctx.font = weight+' '+size+'px Manrope, sans-serif';
+    ctx.fillStyle = colour; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    var ch=text.split(''), total=0, i;
+    for(i=0;i<ch.length;i++) total += ctx.measureText(ch[i]).width + (i<ch.length-1?spacing:0);
+    var x=cx-total/2;
+    for(i=0;i<ch.length;i++){ ctx.fillText(ch[i],x,y); x+=ctx.measureText(ch[i]).width+spacing; }
+    ctx.textAlign='center';
+  }
+
+  // ---------- read the live verdict ----------
+  function readState(){
+    var stampEl=$('stamp'), cls=stampEl?stampEl.className:'';
+    var colour = /\bgreen\b/.test(cls) ? 'green' : /\bamber\b/.test(cls) ? 'amber' : 'red';
+    var equivs=[];
+    var host=$('treasuryEquivs');
+    if(host){
+      Array.prototype.forEach.call(host.querySelectorAll('li'), function(li){
+        var c=li.querySelector('.equiv-count'), lbl=li.querySelector('span:last-child');
+        if(c && lbl){
+          var cv=c.textContent.trim();
+          if(cv && cv!=='·') equivs.push({count:cv, label:lbl.textContent.trim()});
+        }
+      });
+    }
+    return {
+      title:  stampEl ? stampEl.textContent.trim() : '',
+      colour: colour,
+      blurb:  $('verdictSub')   ? $('verdictSub').textContent.trim()   : '',
+      cost:   $('treasuryCost') ? $('treasuryCost').textContent.trim() : '',
+      costSub:$('treasurySub')  ? $('treasurySub').textContent.trim()  : '',
+      thr:    Math.round(+(($('threshold')||{}).value)||0),
+      term:   Math.round(+(($('term')||{}).value)||30),
+      equivs: equivs
+    };
+  }
+
+  // ---------- card sections ----------
+  function drawStamp(title, topY, accent, txtC, startSize){
+    var maxTextW = 1080 - 180;
+    var size = fitSingle(title, maxTextW, startSize||80, 40, '800');
+    var lines;
+    if(size < 50){ size = 58; lines = wrap(title, size, '800', maxTextW); }
+    else lines = [title];
+    ctx.font='800 '+size+'px Manrope, sans-serif';
+    var textW=0; lines.forEach(function(l){ textW=Math.max(textW, ctx.measureText(l.toUpperCase()).width); });
+    var lineH=size*1.06, padX=52, padY=28;
+    var pw=textW+padX*2, ph=lines.length*lineH+padY*2, px=540-pw/2;
+    roundRect(px, topY, pw, ph, Math.min(ph/2, 64));
+    ctx.fillStyle=accent; ctx.fill();
+    ctx.fillStyle=txtC; ctx.textAlign='center'; ctx.textBaseline='middle';
+    var ty=topY+padY+lineH/2;
+    lines.forEach(function(l){ ctx.fillText(l.toUpperCase(), 540, ty); ty+=lineH; });
+    ctx.textBaseline='alphabetic';
+    return topY+ph;
+  }
+  function drawBudgetLine(st, y){
+    var line='Threshold £'+Number(st.thr).toLocaleString('en-GB')+'  ·  '+st.term+'-year term';
+    var size=fitSingle(line, 900, 40, 24, '700');
+    ctx.font='700 '+size+'px Manrope, sans-serif';
+    ctx.fillStyle=C.white; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    ctx.fillText(line, 540, y+size);
+    return y+size+8;
+  }
+  function drawCostFigure(st, y, figStart, subSize, maxLines){
+    var big=st.cost||'', isGain=big.charAt(0)==='+';
+    var figCol=isGain?C.green:C.orange;              // the ONE coloured element
+    var size=fitSingle(big, 940, figStart||120, 60, '800');
+    ctx.font='800 '+size+'px Manrope, sans-serif';
+    ctx.fillStyle=figCol; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    ctx.fillText(big, 540, y+size);
+    var yy=y+size+22;
+    if(st.costSub){
+      var ss=subSize||31, lines=wrap(st.costSub, ss, '600', 860).slice(0, maxLines||3);
+      ctx.fillStyle=C.white; ctx.font='600 '+ss+'px Manrope, sans-serif';
+      lines.forEach(function(l){ yy+=ss*1.28; ctx.fillText(l,540,yy); });
+    }
+    return yy+8;
+  }
+  function drawBlurb(text, y, maxLines){
+    if(!text) return y;
+    var SMAX=34, SMIN=22, W=860;
+    // Split into whole sentences (keep terminators). Never cut mid-sentence.
+    var parts=text.match(/[^.!?]+[.!?]+(?:\s|$)/g);
+    if(!parts || !parts.length) parts=[text];
+    parts=parts.map(function(s){ return s.trim(); });
+    // Greedily keep as many complete sentences as fit at the base size.
+    var chosen='', lines=null, size=SMAX, acc='';
+    for(var i=0;i<parts.length;i++){
+      var cand=(acc?acc+' ':'')+parts[i];
+      var wl=wrap(cand, SMAX, '600', W);
+      if(wl.length<=maxLines){ acc=cand; chosen=cand; lines=wl; }
+      else break;
+    }
+    // If even the first sentence overflows, keep it whole and shrink to fit.
+    if(!chosen){
+      chosen=parts[0]; size=SMAX;
+      while(size>SMIN && wrap(chosen, size, '600', W).length>maxLines) size-=1;
+      lines=wrap(chosen, size, '600', W);
+    }
+    ctx.fillStyle=C.white; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    ctx.font='600 '+size+'px Manrope, sans-serif';
+    var yy=y;
+    lines.forEach(function(l){ yy+=size*1.4; ctx.fillText(l, 540, yy); });
+    return yy;
+  }
+  function drawSacrifice(st, y){
+    if(!st.equivs.length) return y;
+    ctx.strokeStyle='rgba(153,172,255,0.28)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(150,y); ctx.lineTo(930,y); ctx.stroke();
+    y+=42;
+    spaced('THE SACRIFICE', 540, y, 22, '800', C.paleBlue, 4);
+    y+=14;
+    st.equivs.slice(0,3).forEach(function(e){
+      y+=56;
+      var cSize=44, gap=14;
+      ctx.font='800 '+cSize+'px Manrope, sans-serif';
+      var cW=ctx.measureText(e.count).width;
+      var lSize=30;
+      ctx.font='600 '+lSize+'px Manrope, sans-serif';
+      while(cW+gap+ctx.measureText(e.label).width>840 && lSize>18){ lSize-=2; ctx.font='600 '+lSize+'px Manrope, sans-serif'; }
+      var lW=ctx.measureText(e.label).width, sx=540-(cW+gap+lW)/2;
+      ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+      ctx.fillStyle=st.colour==='green'?C.green:C.orange;
+      ctx.font='800 '+cSize+'px Manrope, sans-serif'; ctx.fillText(e.count, sx, y);
+      ctx.fillStyle=C.white; ctx.font='600 '+lSize+'px Manrope, sans-serif';
+      ctx.fillText(e.label, sx+cW+gap, y-(cSize-lSize)*0.12);
+      ctx.textAlign='center';
+    });
+    return y;
+  }
+  function drawHeader(){
+    var title=SH.cardTagline||'';
+    if(logoReady && logoImg){
+      var targetH=132, w=logoImg.width*(targetH/logoImg.height);
+      if(w>680){ w=680; targetH=logoImg.height*(w/logoImg.width); }
+      ctx.drawImage(logoImg, 540-w/2, 46, w, targetH);
+      var base=46+targetH+62;
+      var ts=fitSingle(title, 820, 46, 30, '800');
+      ctx.fillStyle=C.white; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+      ctx.font='800 '+ts+'px Manrope, sans-serif';
+      ctx.fillText(title, 540, base);
+      return base+14;
+    }
+    var ts2=fitSingle(title, 820, 50, 30, '800');
+    ctx.fillStyle=C.white; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    ctx.font='800 '+ts2+'px Manrope, sans-serif';
+    ctx.fillText(title, 540, 130);
+    return 148;
+  }
+  function drawFooter(showCta){
+    ctx.strokeStyle='rgba(153,172,255,0.22)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(150,936); ctx.lineTo(930,936); ctx.stroke();
+    ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    if(showCta!==false){
+      ctx.fillStyle=C.white; ctx.textAlign='center'; ctx.font='800 27px Manrope, sans-serif';
+      ctx.fillText(SH.cardFooterCta||'', 540, 982);
+      spaced(SH.cardBrand||'GOOD GROWTH FOUNDATION', 540, 1018, 20, '800', C.white, 4);
+    } else {
+      spaced(SH.cardBrand||'GOOD GROWTH FOUNDATION', 540, 1000, 22, '800', C.white, 4);
+    }
+  }
+
+  // ---------- compose ----------
+  function draw(){
+    var st=readState();
+    ctx.clearRect(0,0,1080,1080);
+    ctx.fillStyle=C.navy; ctx.fillRect(0,0,1080,1080);
+    ctx.save(); ctx.globalAlpha=0.13; ctx.fillStyle=C.paleBlue;
+    drawPoly(SHAPE2, 300, -70, 0.42);          // top-right sweep
+    drawPoly(SHAPE1, -140, 640, 0.42);         // bottom-left block
+    ctx.restore();
+
+    var accent=accentFor(st.colour), txtC=textOn(st.colour);
+    var hb=drawHeader();
+
+    if(currentStyle==='minimal'){
+      var b=drawStamp(st.title, Math.max(hb+180, 400), accent, txtC);
+      ctx.fillStyle=C.white; ctx.textAlign='center';
+      var q=wrap('Could you fix student loans?', 44, '700', 800);
+      var qy=b+130; ctx.font='700 44px Manrope, sans-serif';
+      q.forEach(function(l){ ctx.fillText(l,540,qy); qy+=54; });
+      drawFooter(false);
+    } else if(currentStyle==='detailed'){
+      var y2=drawStamp(st.title, hb+28, accent, txtC, 96)+40;
+      y2=drawCostFigure(st, y2, 108, 27, 2)+16;
+      drawSacrifice(st, y2);
+      drawFooter(true);
+    } else { // standard
+      var y=drawStamp(st.title, hb+110, accent, txtC, 112)+70;
+      drawBlurb(st.blurb, y, 6);
+      drawFooter(true);
+    }
+    try { canvas.toBlob(function(b){ lastBlob=b; }, 'image/png'); } catch(e){}
+  }
+
+  function ensureFonts(cb){
+    if(FONTS_READY || !document.fonts){ cb(); return; }
+    var loads=[
+      document.fonts.load('800 100px Manrope'),
+      document.fonts.load('700 100px Manrope'),
+      document.fonts.load('600 100px Manrope')
+    ];
+    Promise.all(loads).then(function(){ FONTS_READY=true; cb(); }).catch(function(){ cb(); });
+  }
+
+  // ---------- captions / links ----------
+  function caption(){
+    var st=readState(), url=SH.shareUrl||location.href;
+    return (SH.caption||'').replace('{VERDICT}', st.title).replace('{URL}', url).trim();
+  }
+  var SHARE_URL = SH.shareUrl || location.href;
+
+  function toast(msg){
+    var t=$('shareToast'); if(!t) return;
+    t.textContent=msg; t.classList.add('show');
+    clearTimeout(toast._t); toast._t=setTimeout(function(){ t.classList.remove('show'); }, 1600);
+  }
+
+  // ---------- actions ----------
+  function doDownload(){
+    var url;
+    try { url=canvas.toDataURL('image/png'); }
+    catch(e){ /* tainted by a cross-origin logoUrl */ logoImg=null; logoReady=false; draw(); try{ url=canvas.toDataURL('image/png'); }catch(e2){ toast('Could not save image'); return; } }
+    var a=document.createElement('a');
+    a.download='my-threshold-verdict.png';
+    a.href=url;
+    document.body.appendChild(a); a.click(); a.remove();
+    toast(SH.savedToast||'Image saved');
+  }
+  // Copy the verdict card to the clipboard (with the link as text too), so it can
+  // be pasted straight into a post — LinkedIn/X/WhatsApp Web message boxes accept a
+  // pasted image. This ONLY copies; it never downloads. If the browser can't copy
+  // an image, it tells the user to use the Download button instead.
+  function doCopyImage(){
+    function fail(){ toast('Copy isn’t supported here — use “Download verdict”'); }
+    if(!(navigator.clipboard && window.ClipboardItem)){ fail(); return; }
+    function run(blob){
+      if(!blob){ fail(); return; }
+      var ok=function(){ toast('Verdict copied — paste it into your post'); };
+      var textBlob=new Blob([caption()], {type:'text/plain'});
+      try {
+        navigator.clipboard.write([new ClipboardItem({ 'image/png': blob, 'text/plain': textBlob })])
+          .then(ok)
+          .catch(function(){
+            // Some browsers reject multi-type items — retry with the image alone.
+            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(ok).catch(fail);
+          });
+      } catch(e){ fail(); }
+    }
+    if(lastBlob) run(lastBlob);
+    else { try { canvas.toBlob(run, 'image/png'); } catch(e){ fail(); } }
+  }
+  function doCopy(){
+    var txt=caption();
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){ toast(SH.copiedToast||'Caption copied'); })
+        .catch(function(){ fallbackCopy(txt); });
+    } else fallbackCopy(txt);
+  }
+  function fallbackCopy(txt){
+    var ta=document.createElement('textarea'); ta.value=txt;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+    ta.select(); try{ document.execCommand('copy'); toast(SH.copiedToast||'Caption copied'); }catch(e){}
+    ta.remove();
+  }
+
+  // ---------- modal open / close ----------
+  var lastFocus=null;
+  function openModal(){
+    lastFocus=document.activeElement;
+    overlay.removeAttribute('hidden');
+    overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+    ensureFonts(draw);
+    var cb=$('shareClose'); if(cb) cb.focus();
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    overlay.setAttribute('hidden','');
+    document.body.style.overflow='';
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  // ---------- wire it up ----------
+  var openBtn=$('shareOpenBtn'); if(openBtn) openBtn.addEventListener('click', openModal);
+  var closeBtn=$('shareClose'); if(closeBtn) closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+
+  var ci=$('shareCopyImg'); if(ci) ci.addEventListener('click', doCopyImage);
+  var cp=$('shareCopy'); if(cp) cp.addEventListener('click', doCopy);
+  var dl=$('shareDownload'); if(dl) dl.addEventListener('click', doDownload);
+
+  // Expose for quick manual testing / preview generation.
+  window.__ggfShare = { draw:draw, setStyle:function(s){ currentStyle=s; ensureFonts(draw); }, canvas:canvas };
+})();
+</script>
+<script>
+/* Auto-height when embedded in an iframe: report content height to the parent
+   so there is no nested scrollbar and the host page scrolls normally. */
+(function(){
+  if (window.self === window.top) return;
+  document.documentElement.classList.add('embedded');
+  function post(){
+    var b = document.body, d = document.documentElement;
+    var h = Math.ceil(Math.max(b.scrollHeight, b.getBoundingClientRect().height, d.scrollHeight));
+    try { parent.postMessage({ ggfToolHeight: h }, '*'); } catch (e) {}
+  }
+  var raf;
+  function schedule(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(post); }
+  document.addEventListener('DOMContentLoaded', schedule);
+  window.addEventListener('load', schedule);
+  window.addEventListener('resize', schedule);
+  document.addEventListener('transitionend', schedule, true);
+  document.addEventListener('animationend', schedule, true);
+  document.addEventListener('input', schedule, true);
+  document.addEventListener('click', function(){ setTimeout(schedule, 60); }, true);
+  if (window.ResizeObserver){ new ResizeObserver(schedule).observe(document.body); }
+  setTimeout(schedule, 120); setTimeout(schedule, 600);
+
+  // ---- Pin the levers bar to the top of the screen while the host page scrolls ----
+  // The parent posts how far the frame has scrolled past the viewport top; we slide
+  // the controls bar down by that much so it stays glued to the top (Budget slide only).
+  function pinLevers(frameTop){
+    var bar = document.querySelector('.controls-bar');
+    if (!bar) return;
+    var s1 = document.getElementById('slide-1');
+    if (!s1 || !s1.classList.contains('active')){ bar.style.transform = ''; return; }
+    bar.style.transform = '';                       // reset before measuring
+    var card = bar.closest('.card');
+    var barTop = bar.getBoundingClientRect().top;    // bar's resting top inside the frame
+    var screenTop = frameTop + barTop;               // bar's position relative to the host viewport top
+    if (screenTop < 0 && card){
+      var cr = card.getBoundingClientRect(), bh = bar.getBoundingClientRect().height;
+      var maxOffset = Math.max(0, cr.bottom - barTop - bh);  // release before it leaves the card
+      var offset = Math.min(-screenTop, maxOffset);          // pull it flush to the top (0)
+      if (offset > 0) bar.style.transform = 'translateY(' + offset + 'px)';
+    }
+  }
+  var praf;
+  window.addEventListener('message', function(e){
+    var d = e.data || {};
+    if (typeof d.ggfFrameTop === 'number'){
+      cancelAnimationFrame(praf);
+      praf = requestAnimationFrame(function(){ pinLevers(d.ggfFrameTop); });
+    }
+  });
+})();
+</script>
+</body>
+</html>
